@@ -6,6 +6,7 @@ const ArticlesSchema = new Schema({
   title: String,
   body: String,
   author: String,
+  tags: [String]
 }, { timestamps: true });
 
 ArticlesSchema.methods.toJSON = function() {

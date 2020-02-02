@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
-const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
 
 mongoose.promise = global.Promise;
@@ -19,25 +18,20 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-  next();
-});
-
-if(!isProduction) {
-  app.use(errorHandler());
-}
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+//   next();
+// });
 
 mongoose.connect('mongodb://localhost:27017/lightblog', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-mongoose.set('debug', true);
 
 // Add models
 require('./models/Articles');
@@ -63,16 +57,5 @@ if (!isProduction) {
     });
   });
 }
-
-app.use((err, req, res) => {
-  res.status(err.status || 500);
-
-  res.json({
-    errors: {
-      message: err.message,
-      error: {},
-    },
-  });
-});
 
 const server = app.listen(8000, () => console.log('Server started on http://localhost:8000'));

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 
-class Form extends React.Component {
+class Create extends React.Component {
   
   state = {
       title: '',
@@ -32,7 +32,7 @@ class Form extends React.Component {
   }
 
   handleSubmit = () => {
-    const { onSubmit, articleToEdit, onEdit } = this.props;
+    const { onSubmit } = this.props;
     const { title, body, author } = this.state;
 
     if(title === '' || body === '' || author === ''){
@@ -42,43 +42,19 @@ class Form extends React.Component {
       return;
     }
 
-    if(!articleToEdit) {
-        //Add Blog
-        return axios.post('http://localhost:8000/api/articles', {
-            title,
-            body,
-            author,
-        })
-        .then((res) => onSubmit(res.data))
-        .then(() => this.setState({
-            title: '',
-            body: '',
-            author: '',
-            error: ''
-        }));
-    } else {
-        //Update Blog
-        return axios(`http://localhost:8000/api/articles/${articleToEdit._id}`,{
-            method: "PATCH",
-            data: {
-                title,
-                body,
-                author
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Methods': '*'
-            },
-        })
-        .then((res) => onEdit(res.data))
-        .then(() => this.setState({
-            title: '',
-            body: '',
-            author: '',
-            error: ''
-        }));
-    }
+    //Add Blog
+    return axios.post('http://localhost:8000/api/articles', {
+        title,
+        body,
+        author,
+    })
+    .then((res) => onSubmit(res.data))
+    .then(() => this.setState({
+        title: '',
+        body: '',
+        author: '',
+        error: ''
+    }));
   }
 
   handleChangeField = (key, event) => {
@@ -88,7 +64,6 @@ class Form extends React.Component {
   }
 
   render() {
-    const { articleToEdit } = this.props;
     const { title, body, author, error } = this.state;
 
     return (
@@ -119,8 +94,8 @@ class Form extends React.Component {
           className="form-control my-3"
           placeholder="Article Author"
         />
-        {articleToEdit ? <button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button> : <div></div> }
-        <button onClick={this.handleSubmit} className="btn btn-primary float-right">{articleToEdit ? 'Update' : 'Submit'}</button>
+        <button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button>
+        <button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button>
       </div>
     )
   }
@@ -128,12 +103,7 @@ class Form extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-  onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data }),
   onCancel: () => dispatch({ type: 'CANCEL_EDIT' }),
 });
 
-const mapStateToProps = state => ({
-  articleToEdit: state.home.articleToEdit,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(null, mapDispatchToProps)(Create);

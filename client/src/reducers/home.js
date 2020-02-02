@@ -33,6 +33,11 @@ export default (state={articles: []}, action) => {
           }),
           articleToEdit: undefined,
         }
+      case 'CANCEL_EDIT':
+        return {
+          ...state,
+          articleToEdit: undefined
+        }
       default:
         return state;
     }

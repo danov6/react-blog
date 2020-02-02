@@ -41,32 +41,18 @@ let UserSchema = new Schema({
     profile_img_url: {
         type: String
     },
-    // ----------------------------------
-    // ------------- Account ------------
-    // ----------------------------------
     account_type: {
         type: String,
-        default: 'external'
+        default: 'free'
     },
-    // ----------------------------------
-    // -------------- META --------------
-    // ----------------------------------
     last_login: {
         type: Date,
         default: new Date()
     },
-    // ----------------------------------
-    // -------------- MISC --------------
-    // ----------------------------------
     tokens: {
         reset_password_token: {type: String},
         reset_password_expires: {type: Date},
     }
-
-
-
-
-
 }, {timestamps: true});
 
 // -------------
