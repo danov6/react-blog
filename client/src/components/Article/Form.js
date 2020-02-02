@@ -33,13 +33,29 @@ class Form extends React.Component {
         .then((res) => onSubmit(res.data))
         .then(() => this.setState({ title: '', body: '', author: '' }));
     } else {
-      return axios.patch(`http://localhost:8000/api/articles/${articleToEdit._id}`, {
-        title,
-        body,
-        author,
-      })
-        .then((res) => onEdit(res.data))
+      // return axios.patch(`http://localhost:8000/api/articles/${articleToEdit._id}`, {
+      //   title,
+      //   body,
+      //   author,
+      // })
+      //   .then((res) => onEdit(res.data))
+      //   .then(() => this.setState({ title: '', body: '', author: '' }));
+
+        return axios(`http://localhost:8000/api/articles/${articleToEdit._id}`,{
+          method: "PATCH",
+          data: {
+            title,
+            body,
+            author
+          },
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': '*'
+          },
+        }).then((res) => onEdit(res.data))
         .then(() => this.setState({ title: '', body: '', author: '' }));
+  
     }
   }
 
