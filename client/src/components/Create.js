@@ -71,7 +71,7 @@ class Create extends React.Component {
     const { title, body, author, error } = this.state;
 
     return (
-      <div className="col-12 col-lg-6 offset-lg-3">
+      <div className="col-12 col-lg-8 offset-lg-2">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -80,6 +80,7 @@ class Create extends React.Component {
          :
          <div></div>
         }
+        <h1 style={{marginTop: '2%'}}>Create something for the world to see</h1>
         <input
           onChange={(ev) => this.handleChangeField('title', ev)}
           value={title}

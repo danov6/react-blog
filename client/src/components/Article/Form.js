@@ -15,12 +15,22 @@ class Form extends React.Component {
       error: ''
   };
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.articleToEdit) {
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps.articleToEdit);
+  //   if(nextProps.articleToEdit) {
+  //     this.setState({
+  //       title: nextProps.articleToEdit.title,
+  //       body: nextProps.articleToEdit.body,
+  //       author: nextProps.articleToEdit.author,
+  //     });
+  //   }
+  // }
+  componentDidMount(){
+    if(this.props.articleToEdit) {
       this.setState({
-        title: nextProps.articleToEdit.title,
-        body: nextProps.articleToEdit.body,
-        author: nextProps.articleToEdit.author,
+        title: this.props.articleToEdit.title,
+        body: this.props.articleToEdit.body,
+        author: this.props.articleToEdit.author,
       });
     }
   }
@@ -76,12 +86,6 @@ class Form extends React.Component {
             },
         })
         .then((res) => onEdit(res.data))
-        .then(() => this.setState({
-            title: '',
-            body: '',
-            author: '',
-            error: ''
-        }));
     }
   }
 
@@ -115,7 +119,8 @@ class Form extends React.Component {
           onChange={(ev) => this.handleChangeField('body', ev)}
           className="form-control my-3"
           placeholder="Article Body"
-          value={body}>
+          value={body}
+          style={{height: 220}}>
         </textarea>
         <input
           onChange={(ev) => this.handleChangeField('author', ev)}

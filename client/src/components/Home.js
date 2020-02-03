@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
-import Form from './Article/Form';
 
 class Home extends React.Component {
 
