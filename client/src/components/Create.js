@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 
 class Create extends React.Component {
   
@@ -94,8 +98,8 @@ class Create extends React.Component {
           className="form-control my-3"
           placeholder="Article Author"
         />
-        <button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button>
-        <button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button>
+        <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link>
+        <Link><button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button></Link>
       </div>
     )
   }

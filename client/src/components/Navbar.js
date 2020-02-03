@@ -7,36 +7,45 @@ import {
   } from "react-router-dom";
 
 class Navbar extends React.Component {
+    state ={
+        showSearch: false
+    };
+
+    toggleSearch = () => {
+        // this.setState(prevState => ({
+        //     showSearch: !prevState.showSearch
+        // }));
+        let search_form = document.getElementById('search_form');
+        if(search_form.className.indexOf('show') != -1){
+            search_form.className = "hide";
+        }else{
+            search_form.className = "show";
+        }
+    }
+
     render(){
+
+        const { showSearch } = this.state;
         return(
             <Router>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-sm navbar-light bg-dark" id="navbar">
                     <Link to="/" className="navbar-brand">Blog of Interests</Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon" aria-hidden="true"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                        {/* <li className="nav-item">
-                            <Link to="/edit" className="nav-link">Edit</Link>
-                        </li> */}
-                        {/* <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="#">Action</a>
-                            <a className="dropdown-item" href="#">Another action</a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li> */}
                         </ul>
-                        <form className="form-inline my-2 my-lg-0">
-                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                        <Link to="/create" className="btn btn-success my-2 my-sm-0" type="submit">Create!</Link>
+                        <button id="search_button" onClick={this.toggleSearch} style={{marginRight: '1%'}}>
+                            <svg className="bi bi-search" width="1.5em" height="1.5em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{color: '#fff'}}>
+                                <path fill-rule="evenodd" d="M12.442 12.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8.5 14a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM15 8.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <form className="form-inline my-2 my-lg-0" id="search_form" className="hide"><input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" /></form>
+                        <Link to="/create">
+                            <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Create!</button>
+                        </Link>
                     </div>
                 </nav>
             </Router>
