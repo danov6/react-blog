@@ -7,25 +7,18 @@ import {
   } from "react-router-dom";
 
 class Navbar extends React.Component {
-    state ={
-        showSearch: false
-    };
 
     toggleSearch = () => {
-        // this.setState(prevState => ({
-        //     showSearch: !prevState.showSearch
-        // }));
         let search_form = document.getElementById('search_form');
         if(search_form.className.indexOf('show') != -1){
             search_form.className = "hide";
         }else{
             search_form.className = "show";
+            search_form.querySelector('input').focus();
         }
     }
 
     render(){
-
-        const { showSearch } = this.state;
         return(
             <Router>
                 <nav className="navbar navbar-expand-sm navbar-light bg-dark" id="navbar">
@@ -42,7 +35,7 @@ class Navbar extends React.Component {
                                 <path fillRule="evenodd" d="M8.5 14a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM15 8.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"></path>
                             </svg>
                         </button>
-                        <form className="form-inline my-2 my-lg-0" id="search_form" className="hide"><input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" /></form>
+                        <form className="form-inline my-2 my-lg-0" id="search_form" className="hide"><input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" autoFocus /></form>
                         <Link to="/create">
                             <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Create!</button>
                         </Link>

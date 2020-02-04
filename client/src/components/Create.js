@@ -80,7 +80,7 @@ class Create extends React.Component {
          :
          <div></div>
         }
-        <h1 style={{marginTop: '2%'}}>Create something for the world to see</h1>
+        <h1 style={{marginTop: '2%', textAlign: 'center'}}>Create something</h1>
         <input
           onChange={(ev) => this.handleChangeField('title', ev)}
           value={title}
@@ -100,7 +100,7 @@ class Create extends React.Component {
           placeholder="Article Author"
         />
         <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link>
-        <Link><button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button></Link>
+        <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button></Link>
       </div>
     )
   }
