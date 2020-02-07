@@ -50,7 +50,7 @@ class Login extends React.Component {
     const { username, password, error } = this.state;
 
     return (
-      <div className="col-12 col-lg-6 offset-lg-3">
+      <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -59,7 +59,7 @@ class Login extends React.Component {
          :
          <div></div>
         }
-        <h1 style={{marginTop: '20%', marginBottom: '10%', textAlign: 'center'}}>Login</h1>
+        <h1 style={{marginTop: '16%', marginBottom: '10%', textAlign: 'center'}}>Login</h1>
         <input
           onChange={(ev) => this.handleChangeField('username', ev)}
           value={username}
