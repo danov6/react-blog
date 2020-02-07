@@ -29,6 +29,14 @@ router.post('/', (req, res, next) => {
     });
   }
 
+  if(!body.keyword) {
+    return res.status(422).json({
+      errors: {
+        keyword: 'is required',
+      },
+    });
+  }
+
   const finalArticle = new Articles(body);
   return finalArticle.save()
     .then(() => res.json({ article: finalArticle.toJSON() }))
@@ -72,6 +80,10 @@ router.patch('/:id', (req, res, next) => {
 
   if(typeof body.body !== 'undefined') {
     req.article.body = body.body;
+  }
+
+  if(typeof body.keyword !== 'undefined') {
+    req.article.keyword = body.keyword;
   }
 
   return req.article.save()

@@ -60,18 +60,33 @@ class Login extends React.Component {
          <div></div>
         }
         <h1 style={{marginTop: '16%', marginBottom: '10%', textAlign: 'center'}}>Login</h1>
-        <input
-          onChange={(ev) => this.handleChangeField('username', ev)}
-          value={username}
-          className="form-control my-3"
-          placeholder="Username"
-        />
-        <input
-          onChange={(ev) => this.handleChangeField('password', ev)}
-          className="form-control my-3"
-          placeholder="Password"
-          value={password}>
-        </input>
+        <div className="form-group">
+          <label for="inputUsername">Username</label>
+          <input
+            onChange={(ev) => this.handleChangeField('username', ev)}
+            value={username}
+            className="form-control my-3"
+            id="inputUsername"
+            placeholder="Username"
+          />
+        </div>
+        <div className="form-group">
+          <label for="inputPassword">Password</label>
+          <input
+            onChange={(ev) => this.handleChangeField('password', ev)}
+            type="password"
+            className="form-control my-3"
+            placeholder="Password"
+            id="inputPassword"
+            value={password}>
+          </input>
+        </div>
+        <div className="form-check mb-2 mr-sm-2">
+          <input className="form-check-input" type="checkbox" id="inlineFormCheck" />
+          <label className="form-check-label" for="inlineFormCheck">
+            Remember me
+          </label>
+        </div>
         <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right">Login</button></Link>
       </div>
     )

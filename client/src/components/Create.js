@@ -6,10 +6,13 @@ import {
   Link
 } from "react-router-dom";
 
+let keywords = ['Sports', 'Music', 'Arts', 'Education', 'Technology', 'Software'];
+
 class Create extends React.Component {
   
   state = {
       title: '',
+      keyword: '',
       body: '',
       author: '',
       error: ''
@@ -19,6 +22,7 @@ class Create extends React.Component {
     if(nextProps.articleToEdit) {
       this.setState({
         title: nextProps.articleToEdit.title,
+        keyword: nextProps.articleToEdit.keyword,
         body: nextProps.articleToEdit.body,
         author: nextProps.articleToEdit.author,
       });
@@ -29,6 +33,7 @@ class Create extends React.Component {
     const { onCancel } = this.props;
     this.setState({
       title: '',
+      keyword: '',
       body: '',
       author: ''
     });
@@ -37,9 +42,9 @@ class Create extends React.Component {
 
   handleSubmit = () => {
     const { onSubmit } = this.props;
-    const { title, body, author } = this.state;
+    const { title, keyword, body, author } = this.state;
 
-    if(title === '' || body === '' || author === ''){
+    if(title === '' || body === '' || author === '' || keyword === ''){
       this.setState({
         error: 'Required fields missing'
       });
@@ -49,12 +54,14 @@ class Create extends React.Component {
     //Add Blog
     return axios.post('http://localhost:8000/api/articles', {
         title,
+        keyword: '',
         body,
         author,
     })
     .then((res) => onSubmit(res.data))
     .then(() => this.setState({
         title: '',
+        keyword: '',
         body: '',
         author: '',
         error: ''
@@ -68,7 +75,7 @@ class Create extends React.Component {
   }
 
   render() {
-    const { title, body, author, error } = this.state;
+    const { title, keyword, body, author, error } = this.state;
 
     return (
       <div className="col-12 col-lg-8 offset-lg-2">
@@ -80,13 +87,19 @@ class Create extends React.Component {
          :
          <div></div>
         }
-        <h1 style={{marginTop: '2%', textAlign: 'center'}}>Create something</h1>
+        <h1 style={{marginTop: '16%', marginBottom: '10%', textAlign: 'center'}}>Create something</h1>
         <input
           onChange={(ev) => this.handleChangeField('title', ev)}
           value={title}
           className="form-control my-3"
           placeholder="Article Title"
         />
+        <select className="form-control" value={keyword} onChange={(ev) => this.handleChangeField('keyword', ev)}>
+          <option value="" disabled defaultValue>Select Keyword</option>
+          {keywords.map((keyword,index) => {
+            return <option key={index} value={keyword}>{keyword}</option>
+          })}
+        </select>
         <textarea
           onChange={(ev) => this.handleChangeField('body', ev)}
           className="form-control my-3"

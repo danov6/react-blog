@@ -3,18 +3,17 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ArticlesSchema = new Schema({
-  image: String,
   title: String,
   body: String,
   author: String,
-  tags: [String]
+  keyword: [String]
 }, { timestamps: true });
 
 ArticlesSchema.methods.toJSON = function() {
   return {
     _id: this._id,
-    image: this.image,
     title: this.title,
+    keyword: this.keyword,
     body: this.body,
     author: this.author,
     createdAt: this.createdAt,

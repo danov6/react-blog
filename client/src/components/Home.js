@@ -47,6 +47,7 @@ class Home extends React.Component {
                   <img src="https://via.placeholder.com/100" className="align-self-start mr-3" alt={article.title} />
                   <div className="media-body">
                     <h5 className="mt-0">{article.title}</h5>
+                    <span className="badge badge-primary">{article.keyword}</span>
                     <p>{article.body}</p>
                     <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>

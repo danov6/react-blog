@@ -6,12 +6,15 @@ import {
   Link
 } from "react-router-dom";
 
+let keywords = ['Sports', 'Music', 'Arts', 'Education', 'Technology', 'Software'];
+
 class Form extends React.Component {
   
   state = {
       title: '',
       body: '',
       author: '',
+      keyword: '',
       error: ''
   };
 
@@ -31,6 +34,7 @@ class Form extends React.Component {
         title: this.props.articleToEdit.title,
         body: this.props.articleToEdit.body,
         author: this.props.articleToEdit.author,
+        keyword: this.props.articleToEdit.keyword
       });
     }
   }
@@ -40,16 +44,17 @@ class Form extends React.Component {
     this.setState({
       title: '',
       body: '',
-      author: ''
+      author: '',
+      keyword: ''
     });
     onCancel();
   }
 
   handleSubmit = () => {
     const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, author } = this.state;
+    const { title, body, author, keyword } = this.state;
 
-    if(title === '' || body === '' || author === ''){
+    if(title === '' || body === '' || author === '' || keyword === ''){
       this.setState({
         error: 'Required fields missing'
       });
@@ -62,12 +67,14 @@ class Form extends React.Component {
             title,
             body,
             author,
+            keyword
         })
         .then((res) => onSubmit(res.data))
         .then(() => this.setState({
             title: '',
             body: '',
             author: '',
+            keyword: '',
             error: ''
         }));
     } else {
@@ -77,7 +84,8 @@ class Form extends React.Component {
             data: {
                 title,
                 body,
-                author
+                author,
+                keyword
             },
             headers: {
                 'Accept': 'application/json',
@@ -97,10 +105,10 @@ class Form extends React.Component {
 
   render() {
     const { articleToEdit } = this.props;
-    const { title, body, author, error } = this.state;
+    const { title, body, author, keyword, error } = this.state;
 
     return (
-      <div className="col-12 col-lg-6 offset-lg-3">
+      <div className="col-10 offset-lg-1">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -115,6 +123,12 @@ class Form extends React.Component {
           className="form-control my-3"
           placeholder="Article Title"
         />
+        <select className="form-control" value={keyword} onChange={(ev) => this.handleChangeField('keyword', ev)}>
+          <option value="" disabled defaultValue>Select Keyword</option>
+          {keywords.map((keyword,index) => {
+            return <option key={index} value={keyword}>{keyword}</option>
+          })}
+        </select>
         <textarea
           onChange={(ev) => this.handleChangeField('body', ev)}
           className="form-control my-3"
