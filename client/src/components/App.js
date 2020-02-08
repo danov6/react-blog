@@ -15,9 +15,10 @@ class App extends React.Component {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/edit" component={Edit} />
+          {/* <Route exact path="/edit" component={Edit} /> */}
           <Route exact path="/create" component={Create} />
           <Route exact path="/login" component={Login} />
+          <Route path="/edit/:articleId" component={Edit} />
         </Switch>
       </React.Fragment>
     );

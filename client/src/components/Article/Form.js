@@ -18,25 +18,18 @@ class Form extends React.Component {
       error: ''
   };
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps.articleToEdit);
-  //   if(nextProps.articleToEdit) {
-  //     this.setState({
-  //       title: nextProps.articleToEdit.title,
-  //       body: nextProps.articleToEdit.body,
-  //       author: nextProps.articleToEdit.author,
-  //     });
-  //   }
-  // }
   componentDidMount(){
-    if(this.props.articleToEdit) {
+    const { articleId } = this.props;
+    axios(`http://localhost:8000/api/articles/${articleId}`)
+    .then(res => {
+      let data = res.data;
       this.setState({
-        title: this.props.articleToEdit.title,
-        body: this.props.articleToEdit.body,
-        author: this.props.articleToEdit.author,
-        keyword: this.props.articleToEdit.keyword
+        title: data.article.title,
+        body: data.article.body,
+        author: data.article.author,
+        keyword: data.article.keyword
       });
-    }
+    });
   }
 
   handleCancel = () => {
@@ -108,7 +101,7 @@ class Form extends React.Component {
     const { title, body, author, keyword, error } = this.state;
 
     return (
-      <div className="col-10 offset-lg-1">
+      <div className="col-12 col-lg-6 offset-lg-3">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

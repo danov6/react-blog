@@ -33,8 +33,8 @@ class Home extends React.Component {
     const { articles } = this.props;
 
     return (
-      <div className="container">
-        <div className="row pt-5">
+      <div className="app_container container">
+        <div>
           <div className="col-12 col-lg-6 offset-lg-3">
             <h1 className="text-center">My blog of interests</h1>
           </div>
@@ -51,11 +51,11 @@ class Home extends React.Component {
                     <p>{article.body}</p>
                     <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>
-                      <Link to="/edit">
-                        <button onClick={() => this.handleEdit(article)} className="btn btn-primary mx-3" id="edit_button">
-                          Edit
-                        </button>
-                      </Link>
+                  <Link to={`/edit/${article._id}`}>
+                    <button onClick={() => this.handleEdit(article)} className="btn btn-primary mx-3" id="edit_button">
+                      Edit
+                    </button>
+                  </Link>
                 </div>
               )
             })}

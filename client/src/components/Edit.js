@@ -32,15 +32,13 @@ class Edit extends React.Component {
   }
 
   render() {
-    const { articles } = this.props;
-
     return (
-      <div className="container">
-        <div className="row pt-5">
+      <div className="app_container container">
+        <div>
           <div className="col-12 col-lg-6 offset-lg-3">
             <h1 className="text-center">Edit</h1>
           </div>
-          <Form />
+          <Form articleId={this.props.match.params.articleId} />
         </div>
       </div>
     );

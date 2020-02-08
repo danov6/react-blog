@@ -1,5 +1,14 @@
+body{
+    background-color: #eeeeee;
+}
 #create_button{
     margin-left: 1%;
+}
+.app_container{
+    background-color: rgb(255, 255, 255);
+    padding: 6%;
+    margin-top: 4%;
+    border-radius: 1%;
 }
 #edit_button{
     color: #fff !important;
