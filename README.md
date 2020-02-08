@@ -1,7 +1,4 @@
-
 ## Installation Instructions:
-
-## `Download or clone Project`
 
 ### `cd client`
 
@@ -12,6 +9,7 @@
 ### `cd server`
 
 ### `npm install`
+
 
 ## Start Server:
 
