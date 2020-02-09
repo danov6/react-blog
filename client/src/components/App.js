@@ -2,7 +2,8 @@ import React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
-import Edit from './Edit';
+import EditArticle from './EditArticle';
+import ViewArticle from './ViewArticle';
 import Create from './Create';
 import Login from './Login';
 
@@ -18,7 +19,9 @@ class App extends React.Component {
           {/* <Route exact path="/edit" component={Edit} /> */}
           <Route exact path="/create" component={Create} />
           <Route exact path="/login" component={Login} />
-          <Route path="/edit/:articleId" component={Edit} />
+          <Route path="/article/edit/:articleId" component={EditArticle} />
+          <Route path="/article/view/:articleId" component={ViewArticle} />
+          {/* <Route component={404} /> */}
         </Switch>
       </React.Fragment>
     );

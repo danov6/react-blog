@@ -14,32 +14,6 @@ class Login extends React.Component {
       error: ''
   };
 
-  handleSubmit = () => {
-    // const { onSubmit } = this.props;
-    // const { title, body, author } = this.state;
-
-    // if(title === '' || body === '' || author === ''){
-    //   this.setState({
-    //     error: 'Required fields missing'
-    //   });
-    //   return;
-    // }
-
-    // //Add Blog
-    // return axios.post('http://localhost:8000/api/articles', {
-    //     title,
-    //     body,
-    //     author,
-    // })
-    // .then((res) => onSubmit(res.data))
-    // .then(() => this.setState({
-    //     title: '',
-    //     body: '',
-    //     author: '',
-    //     error: ''
-    // }));
-  }
-
   handleChangeField = (key, event) => {
     this.setState({
       [key]: event.target.value,
@@ -50,7 +24,7 @@ class Login extends React.Component {
     const { username, password, error } = this.state;
 
     return (
-      <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+      <div className="app_container col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -59,7 +33,7 @@ class Login extends React.Component {
          :
          <div></div>
         }
-        <h1 style={{marginTop: '16%', marginBottom: '10%', textAlign: 'center'}}>Login</h1>
+        <h1 style={{textAlign: 'center'}}>Login</h1>
         <div className="form-group">
           <label for="inputUsername">Username</label>
           <input

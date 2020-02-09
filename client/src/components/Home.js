@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
+import { get } from 'https';
 
 class Home extends React.Component {
 
@@ -29,6 +30,42 @@ class Home extends React.Component {
     setEdit(article);
   }
 
+  getStyle = (keyword) => {
+    var keys = ['Arts', 'Education', 'Music', 'Software', 'Sports', 'Technology'].map((key,index) => {
+      return index;
+    })
+    let style = '';
+    switch(keyword) {
+      case 0:
+        //style = 'badge_arts';
+        style = 'badge-success';
+        break;
+      case 1:
+        //style = 'badge_education';
+        style = 'badge-success';
+        break;
+      case 2:
+        //style = 'badge_music';
+        style = 'badge-warning';
+        break;
+      case 3:
+        //style = 'badge_software';
+        style = 'badge-primary';
+        break;
+      case 4:
+        //style = 'badge_sports';
+        style = 'badge-danger';
+        break;
+      case 5:
+        //style = 'badge_technology';
+        style = 'badge-info';
+        break;
+      default:
+    }
+    console.log('Keyword ' + keyword + ' made style: ' + style);
+    return style;
+  };
+
   render() {
     const { articles } = this.props;
 
@@ -40,22 +77,17 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="row pt-5">
-          <div className="col-12 col-lg-10 offset-lg-2">
+          <div className="col-12">
             {articles.map((article,index) => {
               return (
                 <div className="media" key={index}>
                   <img src="https://via.placeholder.com/100" className="align-self-start mr-3" alt={article.title} />
                   <div className="media-body">
-                    <h5 className="mt-0">{article.title}</h5>
-                    <span className="badge badge-primary">{article.keyword}</span>
-                    <p>{article.body}</p>
-                    <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
+                    <h5 className="mt-0"><Link to={`/article/view/${article._id}`}>{article.title}</Link></h5>
+                    <span className={`badge ${this.getStyle(article.keyword)}`}>{article.keyword}</span>
+                    <p>{article.body.length > 200 ? article.body.substring(0,200) + '...' : article.body}</p>
+                    <p className="text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>
-                  <Link to={`/edit/${article._id}`}>
-                    <button onClick={() => this.handleEdit(article)} className="btn btn-primary mx-3" id="edit_button">
-                      Edit
-                    </button>
-                  </Link>
                 </div>
               )
             })}

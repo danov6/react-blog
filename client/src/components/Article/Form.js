@@ -101,7 +101,7 @@ class Form extends React.Component {
     const { title, body, author, keyword, error } = this.state;
 
     return (
-      <div className="col-12 col-lg-6 offset-lg-3">
+      <div className="col-12">
         { error !== '' ?
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
