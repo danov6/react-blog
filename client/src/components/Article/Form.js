@@ -13,7 +13,6 @@ class Form extends React.Component {
   state = {
       title: '',
       body: '',
-      author: '',
       keyword: '',
       error: ''
   };
@@ -26,7 +25,6 @@ class Form extends React.Component {
       this.setState({
         title: data.article.title,
         body: data.article.body,
-        author: data.article.author,
         keyword: data.article.keyword
       });
     });
@@ -37,7 +35,6 @@ class Form extends React.Component {
     this.setState({
       title: '',
       body: '',
-      author: '',
       keyword: ''
     });
     onCancel();
@@ -45,9 +42,9 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, author, keyword } = this.state;
+    const { title, body, keyword } = this.state;
 
-    if(title === '' || body === '' || author === '' || keyword === ''){
+    if(title === '' || body === '' || keyword === ''){
       this.setState({
         error: 'Required fields missing'
       });
@@ -59,14 +56,12 @@ class Form extends React.Component {
         return axios.post('http://localhost:8000/api/articles', {
             title,
             body,
-            author,
             keyword
         })
         .then((res) => onSubmit(res.data))
         .then(() => this.setState({
             title: '',
             body: '',
-            author: '',
             keyword: '',
             error: ''
         }));
@@ -77,7 +72,6 @@ class Form extends React.Component {
             data: {
                 title,
                 body,
-                author,
                 keyword
             },
             headers: {
@@ -98,7 +92,7 @@ class Form extends React.Component {
 
   render() {
     const { articleToEdit } = this.props;
-    const { title, body, author, keyword, error } = this.state;
+    const { title, body, keyword, error } = this.state;
 
     return (
       <div className="col-12">
@@ -129,12 +123,6 @@ class Form extends React.Component {
           value={body}
           style={{height: 220}}>
         </textarea>
-        <input
-          onChange={(ev) => this.handleChangeField('author', ev)}
-          value={author}
-          className="form-control my-3"
-          placeholder="Article Author"
-        />
         {articleToEdit ? <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link> : <div></div> }
         <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right">{articleToEdit ? 'Update' : 'Submit'}</button></Link>
       </div>

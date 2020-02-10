@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
-const Articles = mongoose.model('Articles');
+const Article = mongoose.model('Article');
 
 router.post('/', (req, res, next) => {
   const { body } = req;
@@ -37,21 +37,21 @@ router.post('/', (req, res, next) => {
     });
   }
 
-  const finalArticle = new Articles(body);
+  const finalArticle = new Article(body);
   return finalArticle.save()
     .then(() => res.json({ article: finalArticle.toJSON() }))
     .catch(next);
 });
 
 router.get('/', (req, res, next) => {
-  return Articles.find()
+  return Article.find()
     .sort({ createdAt: 'descending' })
     .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))
     .catch(next);
 });
 
 router.param('id', (req, res, next, id) => {
-  return Articles.findById(id, (err, article) => {
+  return Article.findById(id, (err, article) => {
     if(err) {
       return res.sendStatus(404);
     } else if(article) {
@@ -92,7 +92,7 @@ router.patch('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
-  return Articles.findByIdAndRemove(req.article._id)
+  return Article.findByIdAndRemove(req.article._id)
     .then(() => res.sendStatus(200))
     .catch(next);
 });

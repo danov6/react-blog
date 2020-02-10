@@ -26,43 +26,24 @@ class Home extends React.Component {
 
   handleEdit = (article) => {
     const { setEdit } = this.props;
-
     setEdit(article);
   }
 
   getStyle = (keyword) => {
-    var keys = ['Arts', 'Education', 'Music', 'Software', 'Sports', 'Technology'].map((key,index) => {
-      return index;
-    })
     let style = '';
-    switch(keyword) {
-      case 0:
-        //style = 'badge_arts';
-        style = 'badge-success';
-        break;
-      case 1:
-        //style = 'badge_education';
-        style = 'badge-success';
-        break;
-      case 2:
-        //style = 'badge_music';
-        style = 'badge-warning';
-        break;
-      case 3:
-        //style = 'badge_software';
-        style = 'badge-primary';
-        break;
-      case 4:
-        //style = 'badge_sports';
-        style = 'badge-danger';
-        break;
-      case 5:
-        //style = 'badge_technology';
-        style = 'badge-info';
-        break;
-      default:
+    if(keyword === 'Arts'){
+      style = 'badge-success';
+    }else if(keyword === 'Education'){
+      style = 'badge-success';
+    }else if(keyword === 'Music'){
+      style = 'badge-warning';
+    }else if(keyword === 'Software'){
+      style = 'badge-primary';
+    }else if(keyword === 'Sports'){
+      style = 'badge-danger';
+    }else if(keyword === 'Technology'){
+      style = 'badge-info';
     }
-    console.log('Keyword ' + keyword + ' made style: ' + style);
     return style;
   };
 
@@ -84,7 +65,7 @@ class Home extends React.Component {
                   <img src="https://via.placeholder.com/100" className="align-self-start mr-3" alt={article.title} />
                   <div className="media-body">
                     <h5 className="mt-0"><Link to={`/article/view/${article._id}`}>{article.title}</Link></h5>
-                    <span className={`badge ${this.getStyle(article.keyword)}`}>{article.keyword}</span>
+                    <span className={`badge ${this.getStyle(article.keyword[0])}`}>{article.keyword[0]}</span>
                     <p>{article.body.length > 200 ? article.body.substring(0,200) + '...' : article.body}</p>
                     <p className="text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>

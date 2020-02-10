@@ -7,7 +7,7 @@ body{
 .app_container{
     background-color: rgb(255, 255, 255);
     padding: 6%;
-    margin-top: 4%;
+    margin-top: 3%;
     border-radius: 1%;
 }
 #edit_button{
@@ -45,12 +45,12 @@ body{
     overflow: hidden;
     margin-right: 1%;
 }
-.show {
+.search_show {
     transition-property: width !important;
     left: 0 !important;
     width: 200px !important;
 }
-.hide {
+.search_hide {
     transition-property: width, left !important;
     width: 0 !important;
 }

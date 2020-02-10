@@ -34,7 +34,9 @@ mongoose.connect('mongodb://localhost:27017/lightblog', {
 });
 
 // Add models
-require('./models/Articles');
+require('./models/Article');
+require('./models/User');
+require('./models/Comment');
 
 // Add routes
 app.use(require('./routes'));
