@@ -3,8 +3,10 @@ import React from 'react';
 class LoadingSpinner extends React.Component {
     render(){
         return (
-            <div className="spinner-border" role="status" style={{textAlign: 'center'}}>
-                <span className="sr-only">Loading...</span>
+            <div style={{width: '100%', textAlign: 'center'}}>
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
             </div>
         );
     }

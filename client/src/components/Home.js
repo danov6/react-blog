@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
-import { get } from 'https';
 
 class Home extends React.Component {
 

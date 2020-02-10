@@ -1,12 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import {
     BrowserRouter as Router,
     Link,
     withRouter
   } from "react-router-dom";
+import Axios from 'axios';
 
 class Navbar extends React.Component {
 
+    state = {
+        isLoggedIn: false
+    };
+    
     toggleSearch = () => {
         let search_form = document.getElementById('search_form');
         if(search_form.className.indexOf('search_show') != -1){

@@ -70,7 +70,6 @@ router.post('/login', (req, res, next) => {
     if(username) {
         if(username.indexOf('@') != -1){
           User.findOne({'email': username}).exec().then(function (usr) {
-            console.log('WORK')
             if(!usr || !usr.validPassword(password)) {
                 res.json({error: ['Invalid email or password']});
             }else {
@@ -78,7 +77,6 @@ router.post('/login', (req, res, next) => {
                 let user = {_id: usr._id};
                 let token = jwt.sign(user, secret, {expiresIn: '7d'}); // Expires in 1 week
 
-                console.log('[ auth ] Token: ' + token);
                 res.json({token: token});
             }
           }, function (err) {
@@ -87,7 +85,6 @@ router.post('/login', (req, res, next) => {
           });
         }else{
           User.findOne({'username': username}).exec().then(function (usr) {
-            console.log('WORK')
             if(!usr || !usr.validPassword(password)) {
                 res.json({error: ['Invalid email or password']});
             }else {
@@ -109,7 +106,6 @@ router.post('/login', (req, res, next) => {
     }
 });
 
-//Get all users
 router.get('/', (req, res, next) => {
   return Article.find()
     .sort({ createdAt: 'descending' })

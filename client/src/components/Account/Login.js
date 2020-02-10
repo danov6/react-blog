@@ -25,7 +25,6 @@ class Login extends React.Component {
 
   handleLogin = () => {
     const { username, password } = this.state;
-    const { setSessionToken } = this.props;
 
     this.setState({
       isLoading: true
@@ -43,6 +42,7 @@ class Login extends React.Component {
       })
       .then((res) => {
         let data = res.data;
+        console.log(data)
         if(data.error){
           this.setState({
             isLoading: false,
@@ -52,8 +52,8 @@ class Login extends React.Component {
           this.setState({
             isLoading: false
           });
-          setSessionToken(data.token);
-          console.log('Token: ' + data.token);
+          localStorage.setItem('JWT-Token', data.token);
+          //location.href = "http://localhost:3000/";
         }
       });
     }

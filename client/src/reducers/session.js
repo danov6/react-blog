@@ -1,9 +1,9 @@
-export default (state={session: {}}, action) => {
+export default (state={account: {}}, action) => {
     switch(action.type) {
-      case 'SET_SESSION_TOKEN':
+      case 'SET_ACCOUNT':
         return {
           ...state,
-          sessionToken: action.token,
+          account: action.account,
         };
       default:
         return state;
