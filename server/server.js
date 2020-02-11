@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const expressJwt = require('express-jwt');
+const secret = "SUPER-SECRET-MF-PASSWORD";
 
 mongoose.promise = global.Promise;
 
@@ -16,19 +18,12 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-//   next();
-// });
+app.use('/api/users/profile', expressJwt({
+  secret: secret
+}));
 
-mongoose.connect('mongodb://localhost:27017/lightblog', {
+mongoose.connect('mongodb+srv://glvaldez:Giordano1!@cluster0-axmms.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -50,7 +45,6 @@ app.use((req, res, next) => {
 if (!isProduction) {
   app.use((err, req, res) => {
     res.status(err.status || 500);
-
     res.json({
       errors: {
         message: err.message,

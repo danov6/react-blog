@@ -106,58 +106,24 @@ router.post('/login', (req, res, next) => {
     }
 });
 
-router.get('/', (req, res, next) => {
-  return Article.find()
-    .sort({ createdAt: 'descending' })
-    .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))
-    .catch(next);
-});
-
-router.param('id', (req, res, next, id) => {
-  return Article.findById(id, (err, article) => {
-    if(err) {
-      return res.sendStatus(404);
-    } else if(article) {
-      req.article = article;
-      return next();
-    }
-  }).catch(next);
-});
-
-router.get('/:id', (req, res, next) => {
-  return res.json({
-    article: req.article.toJSON(),
-  });
-});
-
-router.patch('/:id', (req, res, next) => {
-  const { body } = req;
-
-  if(typeof body.title !== 'undefined') {
-    req.article.title = body.title;
+router.get('/profile', (req,res, next) => {
+  if (!req.user) {
+    res.json({error: ['Not authorized']});
+  } else {
+    console.log("[ users ] New login :::::::::::::::::::::::::::::::::::::::::::: ".magenta + req.user._id);
+    User.findOne({'_id': req.user._id}, {
+        'password': 0,
+    }).exec().then(function (u) {
+        if(u){
+          res.json(u);
+        }else{
+          res.json({error: ['User not found']});
+        }
+    }, function (err) {
+        console.log("[ users ] Error finding one user by _id".red, err);
+        res.json({error: ['Error fetching user from database']});
+    });
   }
-
-  if(typeof body.author !== 'undefined') {
-    req.article.author = body.author;
-  }
-
-  if(typeof body.body !== 'undefined') {
-    req.article.body = body.body;
-  }
-
-  if(typeof body.keyword !== 'undefined') {
-    req.article.keyword = body.keyword;
-  }
-
-  return req.article.save()
-    .then(() => res.json({ article: req.article.toJSON() }))
-    .catch(next);
-});
-
-router.delete('/:id', (req, res, next) => {
-  return Article.findByIdAndRemove(req.article._id)
-    .then(() => res.sendStatus(200))
-    .catch(next);
 });
 
 module.exports = router;

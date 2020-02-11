@@ -4,7 +4,7 @@ const Article = mongoose.model('Article');
 
 router.post('/', (req, res, next) => {
   const { body } = req;
-
+  console.log(body)
   if(!body.title) {
     return res.status(422).json({
       errors: {

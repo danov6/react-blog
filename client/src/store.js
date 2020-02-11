@@ -1,11 +1,11 @@
 import { createStore, combineReducers } from 'redux';
 
 import home from './reducers/home';
-import session from './reducers/session';
+import user from './reducers/user';
 
 const reducers = combineReducers({
   home,
-  session
+  user
 });
 
 const store = createStore(reducers);
