@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
+
 import {
-  BrowserRouter as Router,
   Link
 } from "react-router-dom";
 
@@ -25,6 +25,7 @@ class Login extends React.Component {
 
   handleLogin = () => {
     const { username, password } = this.state;
+    const { setLoggedInUser } = this.props;
 
     this.setState({
       isLoading: true
@@ -53,7 +54,7 @@ class Login extends React.Component {
             isLoading: false
           });
           localStorage.setItem('JWT-Token', data.token);
-          //location.href = "http://localhost:3000/";
+          setLoggedInUser(data);
         }
       });
     }
@@ -115,7 +116,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setSessionToken: token => dispatch({ type: 'SET_SESSION_TOKEN', token}),
+  setLoggedInUser: user => dispatch({ type: 'LOGIN', user }),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -1,21 +1,50 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
 import {
-    BrowserRouter as Router,
     Link,
-    withRouter
   } from "react-router-dom";
-import Axios from 'axios';
 
 class Navbar extends React.Component {
 
     state = {
         isLoggedIn: false
     };
-    
+    componentDidMount(){
+        // Set axios JWT
+        let token = localStorage.getItem("JWT-Token");
+        if (token) {
+            // Set axios defaults to include JWT in requests
+            axios.defaults.headers.common = {'Authorization': 'Bearer ' + token};
+            axios.get("http://localhost:8000/api/users/profile").then((response) => {
+                if (response.data && response.data.error) {
+                    // Display error message
+                    alert(response.data.error);
+                    return;
+                }
+
+                //set user to redux store
+                const userData = response.data;
+                const { setLoggedInUser } = this.props;
+                setLoggedInUser(userData);
+                console.log('------REDUX SET USER------');
+                console.log(userData);
+                this.setState({
+                    isLoggedIn: true
+                });
+            }).catch(error => {
+                console.log(error);
+            });
+        } else {
+            console.log("[ App ] Error: No token found!");
+            //this.props.history.replace('/login');
+        }
+    }
+
     toggleSearch = () => {
         let search_form = document.getElementById('search_form');
-        if(search_form.className.indexOf('search_show') != -1){
+        if(search_form.className.indexOf('search_show') !== -1){
             search_form.className = "search_hide";
         }else{
             search_form.className = "search_show";
@@ -47,13 +76,23 @@ class Navbar extends React.Component {
                             </svg>
                         </button>
                     </Link>
-                    <Link to="/article/create">
-                        <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Create!</button>
-                    </Link>
+                    {Object.keys(this.props.user).length > 0 ? <div>It worked!</div> : 
+                        <Link to="/article/create">
+                            <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Create!</button>
+                        </Link>
+                    }
                 </div>
             </nav>
         )
     }
 }
 
-export default withRouter(Navbar);
+const mapStateToProps = state => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setLoggedInUser: user => dispatch({ type: 'LOGIN', user }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -34,7 +33,7 @@ class ForgotPassword extends React.Component {
         }
         <h1 style={{textAlign: 'center'}}>Password Reset</h1>
         <div className="form-group">
-          <label for="inputEmail">Enter the email address that you used to register. We'll send you an email with your username and a link to reset your password.</label>
+          <label htmlFor="inputEmail">Enter the email address that you used to register. We'll send you an email with your username and a link to reset your password.</label>
           <input
             onChange={(ev) => this.handleChangeField('email', ev)}
             name="email"

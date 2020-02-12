@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import { connect } from 'react-redux';
 
 import Form from './Form';

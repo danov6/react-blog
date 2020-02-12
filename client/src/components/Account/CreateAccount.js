@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { connect } from 'react-redux';
 import {
-  BrowserRouter as Router,
   Link
 } from "react-router-dom";
 
@@ -28,7 +26,6 @@ class CreateAccount extends React.Component {
 
   handleCreateAccount = () => {
     const { full_name, email, username, password, confirm_password } = this.state;
-    const { setSessionToken } = this.props;
 
     this.setState({
       isLoading: true
