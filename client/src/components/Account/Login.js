@@ -2,9 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import LoadingSpinner from '../LoadingSpinner';
 
@@ -43,18 +41,15 @@ class Login extends React.Component {
       })
       .then((res) => {
         let data = res.data;
-        console.log(data)
         if(data.error){
           this.setState({
             isLoading: false,
             error: data.error[0]
           });
         }else{
-          this.setState({
-            isLoading: false
-          });
           localStorage.setItem('JWT-Token', data.token);
           setLoggedInUser(data);
+          window.location.pathname = "/account/profile";
         }
       });
     }

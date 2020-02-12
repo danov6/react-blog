@@ -9,6 +9,7 @@ import CreateArticle from './Article/CreateArticle';
 import Login from './Account/Login';
 import ForgotPassword from './Account/ForgotPassword';
 import CreateAccount from './Account/CreateAccount';
+import MyProfile from './Account/MyProfile';
 
 import Navbar from './Navbar/Navbar';
 
@@ -20,6 +21,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/account/login" component={Login} />
+          <Route exact path="/account/profile" component={MyProfile} />
           <Route exact path="/account/password-reset" component={ForgotPassword} />
           <Route exact path="/account/create-account" component={CreateAccount} />
           <Route exact path="/article/create" component={CreateArticle} />

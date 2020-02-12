@@ -17,6 +17,16 @@ class CreateArticle extends React.Component {
       error: ''
   };
 
+  componentDidMount(){
+    let { user } = this.props;
+
+    if(typeof user['username'] !== "undefined"){
+      this.setState({
+        author: user['username']
+      });
+    }
+  }
+
   handleCancel = () => {
     const { onCancel } = this.props;
     this.setState({
@@ -94,12 +104,6 @@ class CreateArticle extends React.Component {
           placeholder="Article Body"
           value={body}>
         </textarea>
-        <input
-          onChange={(ev) => this.handleChangeField('author', ev)}
-          value={author}
-          className="form-control my-3"
-          placeholder="Article Author"
-        />
         <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link>
         <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right">Create Blog</button></Link>
       </div>
@@ -112,4 +116,7 @@ const mapDispatchToProps = dispatch => ({
   onCancel: () => dispatch({ type: 'CANCEL_EDIT' }),
 });
 
-export default connect(null, mapDispatchToProps)(CreateArticle);
+const mapStateToProps = state => ({
+  user: state.user
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);

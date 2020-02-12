@@ -13,18 +13,20 @@ class Form extends React.Component {
       title: '',
       body: '',
       keyword: '',
+      author: '',
       error: ''
   };
 
   componentDidMount(){
-    const { articleId } = this.props;
+    const { articleId, user } = this.props;
     axios(`http://localhost:8000/api/articles/${articleId}`)
     .then(res => {
       let data = res.data;
       this.setState({
         title: data.article.title,
         body: data.article.body,
-        keyword: data.article.keyword
+        keyword: data.article.keyword,
+        author: user.username
       });
     });
   }
@@ -34,16 +36,17 @@ class Form extends React.Component {
     this.setState({
       title: '',
       body: '',
-      keyword: ''
+      keyword: '',
+      author: ''
     });
     onCancel();
   }
 
   handleSubmit = () => {
     const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, keyword } = this.state;
+    const { title, body, keyword, author } = this.state;
 
-    if(title === '' || body === '' || keyword === ''){
+    if(title === '' || body === '' || keyword === '' || author === ''){
       this.setState({
         error: 'Required fields missing'
       });
@@ -55,13 +58,15 @@ class Form extends React.Component {
         return axios.post('http://localhost:8000/api/articles', {
             title,
             body,
-            keyword
+            keyword,
+            author
         })
         .then((res) => onSubmit(res.data))
         .then(() => this.setState({
             title: '',
             body: '',
             keyword: '',
+            author: '',
             error: ''
         }));
     } else {
@@ -71,7 +76,8 @@ class Form extends React.Component {
             data: {
                 title,
                 body,
-                keyword
+                keyword,
+                author
             },
             headers: {
                 'Accept': 'application/json',
@@ -137,6 +143,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   articleToEdit: state.home.articleToEdit,
+  user: state.user
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
