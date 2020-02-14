@@ -61,14 +61,7 @@ class CreateArticle extends React.Component {
         body,
         author,
     })
-    .then((res) => onSubmit(res.data))
-    .then(() => this.setState({
-        title: '',
-        keyword: '',
-        body: '',
-        author: '',
-        error: ''
-    }));
+    .then((res) => onSubmit(res.data));
   }
 
   handleChangeField = (key, event) => {
@@ -78,7 +71,7 @@ class CreateArticle extends React.Component {
   }
 
   render() {
-    const { title, keyword, body, author, error } = this.state;
+    const { title, keyword, body, error } = this.state;
 
     return (
       <div className="app_container col-12 col-lg-8 offset-lg-2">

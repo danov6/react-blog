@@ -11,77 +11,56 @@ const secret = "SUPER-SECRET-MF-PASSWORD";
 //Add article
 router.post('/api/articles/add', (req, res, next) => {
     if (!req.user) {
+        console.log("[ Add Article ] User is not authorized");
         res.json({
             error: ['Not authorized']
         });
     } else {
         const { body } = req;
-        console.log(body)
-        if (!body.title) {
-            return res.status(422).json({
-                errors: {
-                    title: 'is required',
-                },
-            });
-        }
-    
-        if (!body.author) {
-            return res.status(422).json({
-                errors: {
-                    author: 'is required',
-                },
-            });
-        }
-    
-        if (!body.body) {
-            return res.status(422).json({
-                errors: {
-                    body: 'is required',
-                },
-            });
-        }
-    
-        if (!body.keyword) {
-            return res.status(422).json({
-                errors: {
-                    keyword: 'is required',
-                },
-            });
-        }
         const newArticle = new Article(body);
 
+        //Save article to user
         User.findOne({
             '_id': req.user._id
-        }).exec().then(function(usr) {
+        }).exec().then((usr) => {
             if(usr){
-                let userArticles = usr.Articles.push(newArticle);
-                User.findOneAndUpdate({_id: usr._id},{
-                    Articles: userArticles
+                usr.Articles.push(newArticle);
+                usr.save((err, u) => {
+                    if (err) return console.error("[ Add Article ] " + err);
+                    console.log("[ Add Article ] Article saved to user: " + usr._id);
                 });
+            }else{
+                console.log("[ Add Article ] No user found with ID: " + req.user._id);
             }
         });
 
-        return newArticle.save()
-            .then(() => res.json({
+        //Save article to collection
+        newArticle.save((err, a) => {
+            if (err) return console.error("[ Add Article ] " + err);
+            console.log(`[ Add Article ] Article ${a.title} saved to collection by: ` + a.author);
+            res.json({
                 article: newArticle.toJSON()
-            }))
-            .catch(next);
+            });
+        });
     }
 });
 
 router.get('/articles', (req, res, next) => {
-    return Article.find()
-        .sort({
-            createdAt: 'descending'
-        })
-        .then((articles) => res.json({
+    Article.find()
+    .sort({
+        createdAt: 'descending'
+    })
+    .then((articles) => {
+        console.log('[ Get Articles ] Get all articles');
+        res.json({
             articles: articles.map(article => article.toJSON())
-        }))
-        .catch(next);
+        });
+    })
+    .catch(next);
 });
 
 router.param('id', (req, res, next, id) => {
-    return Article.findById(id, (err, article) => {
+    Article.findById(id, (err, article) => {
         if (err) {
             return res.sendStatus(404);
         } else if (article) {
@@ -92,43 +71,83 @@ router.param('id', (req, res, next, id) => {
 });
 
 router.get('/articles/:id', (req, res, next) => {
-    return res.json({
+    res.json({
         article: req.article.toJSON(),
     });
 });
 
-router.patch('/:id', (req, res, next) => {
-    const {
-        body
-    } = req;
+router.patch('/api/articles/:id', (req, res, next) => {
+    if (!req.user) {
+        console.log("[ Update Article ] User is not authorized");
+        res.json({
+            error: ['Not authorized']
+        });
+    } else {
+        const { body } = req;
 
-    if (typeof body.title !== 'undefined') {
-        req.article.title = body.title;
-    }
-
-    if (typeof body.author !== 'undefined') {
-        req.article.author = body.author;
-    }
-
-    if (typeof body.body !== 'undefined') {
-        req.article.body = body.body;
-    }
-
-    if (typeof body.keyword !== 'undefined') {
-        req.article.keyword = body.keyword;
-    }
-
-    return req.article.save()
-        .then(() => res.json({
-            article: req.article.toJSON()
-        }))
+        if (typeof body.title !== 'undefined') {
+            req.article.title = body.title;
+        }
+    
+        if (typeof body.author !== 'undefined') {
+            req.article.author = body.author;
+        }
+    
+        if (typeof body.body !== 'undefined') {
+            req.article.body = body.body;
+        }
+    
+        if (typeof body.keyword !== 'undefined') {
+            req.article.keyword = body.keyword;
+        }
+    
+        req.article.save()
+        .then((a) => {
+            console.log("[ Update Article ] Article updated: " + a._id);
+            res.json({
+                article: req.article.toJSON()
+            });
+        })
         .catch(next);
+    }
 });
 
-router.delete('/:id', (req, res, next) => {
-    return Article.findByIdAndRemove(req.article._id)
-        .then(() => res.sendStatus(200))
-        .catch(next);
+router.delete('/api/articles/:id', (req, res, next) => {
+    if (!req.user) {
+        console.log("[ Delete Article ] User is not authorized");
+        res.json({
+            error: ['Not authorized']
+        });
+    } else {
+        let articleId = req.article._id;
+        Article.findByIdAndRemove(articleId)
+        .then(() => {
+            console.log(`[ Delete Article ] Article ${req.article.title} removed from collection`);
+            //Save article to user
+            User.findOne({
+                '_id': req.user._id
+            }).exec().then((usr) => {
+                if(usr){
+                    usr.Articles = usr.Articles.filter((a) => {
+                                        return (a._id !== articleId);
+                                    });
+                    console.log(usr.Articles);                
+                    usr.save((err, u) => {
+                        if (err) return console.error("[ Delete Article ] " + err);
+                        console.log("[ Delete Article ] Article removed from user: " + usr._id);
+                        res.json({
+                            user: u
+                        });
+                    });
+                }else{
+                    console.log("[ Delete Article ] No user found with ID: " + req.user._id);
+                    res.json({
+                        error: ['No user found']
+                    });
+                }
+            });
+        });
+    }
 });
 
 //Create User
@@ -139,15 +158,17 @@ router.post('/users/signup', (req, res, next) => {
         }).exec().then(function(usr) {
             //Check if email was found
             if (usr) {
+                console.log("[ Signup ] Email is already registered, please log in: " + req.body.email);
                 res.json({
                     error: [req.body.email + ' is already registered, please log in instead']
                 });
             } else {
                 User.findOne({
                     'username': req.body.username
-                }).exec().then(function(usr) {
+                }).exec().then((usr) => {
                         //Check if username was found
                         if (usr) {
+                            console.log("[ Signup ] Username is already picked, please choose another: " + req.body.username);
                             res.json({
                                 error: ['Username ' + req.body.username + ' is already registered, please use another']
                             });
@@ -186,14 +207,14 @@ router.post('/users/signup', (req, res, next) => {
                         }
                     },
                     function(err) {
-                        console.log("[ auth ] Error finding one user".red, err);
+                        console.log("[ Signup ] Error finding one user".red, err);
                         res.json({
                             error: ['Error fetching user']
                         });
                     });
             }
         }, function(err) {
-            console.log("[ auth ] Error finding one user".red, err);
+            console.log("[ Signup ] Error finding one user".red, err);
             res.json({
                 error: ['Error fetching user']
             });

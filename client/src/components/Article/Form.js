@@ -32,20 +32,15 @@ class Form extends React.Component {
     });
   }
 
-  handleCancel = () => {
-    const { onCancel } = this.props;
-    this.setState({
-      title: '',
-      body: '',
-      keyword: '',
-      author: '',
-      error: ''
-    });
-    onCancel();
+  handleDelete = (id) => {
+    return axios.delete(`http://localhost:8000/api/articles/${id}`)
+      .then(() => {
+        console.log('Article deleted..');
+        window.location.pathname = "/";
+      });
   }
 
   handleSubmit = () => {
-    const { onEdit } = this.props;
     const { _id, title, body, keyword, author } = this.state;
 
     if(title === '' || body === '' || keyword === '' || author === ''){
@@ -119,20 +114,16 @@ class Form extends React.Component {
           value={body}
           style={{height: 220}}>
         </textarea>
-        <Link to={`/article/view/${_id}`}><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link>
+        <Link to={`/article/view/${_id}`}><button type="button" className="btn btn-link">Cancel</button></Link>
+        <button onClick={() => this.handleDelete(_id)} type="button" className="btn btn-danger">Delete</button>
         <button onClick={this.handleSubmit} className="btn btn-primary float-right">Update</button>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-  onCancel: () => dispatch({ type: 'CANCEL_EDIT' }),
-});
-
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, null)(Form);
