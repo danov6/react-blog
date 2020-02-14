@@ -11,7 +11,7 @@ class Home extends React.Component {
   componentDidMount() {
     const { onLoad } = this.props;
 
-    axios('http://localhost:8000/api/articles')
+    axios('http://localhost:8000/articles')
       .then((res) => onLoad(res.data));
   }
 

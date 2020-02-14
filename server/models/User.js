@@ -46,7 +46,7 @@ let UserSchema = new Schema({
         reset_password_token: {type: String},
         reset_password_expires: {type: Date},
     },
-    articles: [{
+    Articles: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Article'
     }]

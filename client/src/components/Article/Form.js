@@ -19,10 +19,11 @@ class Form extends React.Component {
 
   componentDidMount(){
     const { articleId, user } = this.props;
-    axios(`http://localhost:8000/api/articles/${articleId}`)
+    axios(`http://localhost:8000/articles/${articleId}`)
     .then(res => {
       let data = res.data;
       this.setState({
+        _id: data.article._id,
         title: data.article.title,
         body: data.article.body,
         keyword: data.article.keyword,
@@ -37,14 +38,15 @@ class Form extends React.Component {
       title: '',
       body: '',
       keyword: '',
-      author: ''
+      author: '',
+      error: ''
     });
     onCancel();
   }
 
   handleSubmit = () => {
-    const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, keyword, author } = this.state;
+    const { onEdit } = this.props;
+    const { _id, title, body, keyword, author } = this.state;
 
     if(title === '' || body === '' || keyword === '' || author === ''){
       this.setState({
@@ -53,40 +55,30 @@ class Form extends React.Component {
       return;
     }
 
-    if(!articleToEdit) {
-        //Add Blog
-        return axios.post('http://localhost:8000/api/articles', {
+    //Update Blog
+    return axios(`http://localhost:8000/api/articles/${_id}`,{
+        method: "PATCH",
+        data: {
             title,
             body,
             keyword,
             author
-        })
-        .then((res) => onSubmit(res.data))
-        .then(() => this.setState({
-            title: '',
-            body: '',
-            keyword: '',
-            author: '',
-            error: ''
-        }));
-    } else {
-        //Update Blog
-        return axios(`http://localhost:8000/api/articles/${articleToEdit._id}`,{
-            method: "PATCH",
-            data: {
-                title,
-                body,
-                keyword,
-                author
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Methods': '*'
-            },
-        })
-        .then((res) => onEdit(res.data))
-    }
+        },
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': '*'
+        },
+    })
+    .then(() => {
+      window.location.pathname = `/article/view/${_id}`;
+    })
+    .catch((error) => {
+      this.setState({
+        error
+      });
+    });
+  
   }
 
   handleChangeField = (key, event) => {
@@ -96,8 +88,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { articleToEdit } = this.props;
-    const { title, body, keyword, error } = this.state;
+    const { _id, title, body, keyword, error } = this.state;
 
     return (
       <div className="col-12">
@@ -128,8 +119,8 @@ class Form extends React.Component {
           value={body}
           style={{height: 220}}>
         </textarea>
-        {articleToEdit ? <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link> : <div></div> }
-        <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right">{articleToEdit ? 'Update' : 'Submit'}</button></Link>
+        <Link to={`/article/view/${_id}`}><button onClick={this.handleCancel} type="button" className="btn btn-link">Cancel</button></Link>
+        <button onClick={this.handleSubmit} className="btn btn-primary float-right">Update</button>
       </div>
     )
   }
@@ -137,12 +128,10 @@ class Form extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-  onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data }),
   onCancel: () => dispatch({ type: 'CANCEL_EDIT' }),
 });
 
 const mapStateToProps = state => ({
-  articleToEdit: state.home.articleToEdit,
   user: state.user
 });
 

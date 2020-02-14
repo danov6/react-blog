@@ -19,10 +19,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/users/profile', expressJwt({
+app.use('/api', expressJwt({
   secret: secret
 }));
-
+//'mongodb://localhost:27017/lightblog'
 mongoose.connect('mongodb+srv://glvaldez:Giordano1!@cluster0-axmms.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true

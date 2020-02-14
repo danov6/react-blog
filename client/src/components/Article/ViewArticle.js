@@ -13,7 +13,7 @@ class ViewArticle extends React.Component {
 
     componentDidMount(){
         const articleId = this.props.match.params.articleId;
-        axios(`http://localhost:8000/api/articles/${articleId}`)
+        axios(`http://localhost:8000/articles/${articleId}`)
         .then(res => {
             let data = res.data;
             this.setState({

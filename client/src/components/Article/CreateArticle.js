@@ -49,10 +49,15 @@ class CreateArticle extends React.Component {
       return;
     }
 
+    console.log(title);
+    console.log(keyword);
+    console.log(body);
+    console.log(author);
+
     //Add Blog
-    return axios.post('http://localhost:8000/api/articles', {
+    return axios.post('http://localhost:8000/api/articles/add', {
         title,
-        keyword: '',
+        keyword,
         body,
         author,
     })
