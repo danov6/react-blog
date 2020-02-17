@@ -11,11 +11,8 @@ const ArticleSchema = new Schema({
     type: Number,
      default: 0
   },
-  author: String,
-  // author: { 
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User'
-  // },
+  author_id: String,
+  author_name: String,
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
@@ -28,7 +25,8 @@ ArticleSchema.methods.toJSON = function() {
     title: this.title,
     body: this.body,
     keyword: this.keyword,
-    author: this.author,
+    author_id: this.author_id,
+    author_name: this.author_name,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

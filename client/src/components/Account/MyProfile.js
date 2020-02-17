@@ -5,10 +5,10 @@ import axios from 'axios';
 
 class MyProfile extends React.Component {
 
-  handleDelete = (id) => {
-    return axios.delete(`http://localhost:8000/api/articles/${id}`)
+  handleDelete = () => {
+    return axios.delete(`http://localhost:8000/api/articles`)
       .then(() => {
-        console.log('Article deleted..');
+        console.log('Delete all articles');
         window.location.pathname = "/";
       });
   }
@@ -29,7 +29,7 @@ class MyProfile extends React.Component {
         </div>
         <div className="row pt-5">
           <div className="col-12">
-              <button onClick={() => this.handleDelete(user._id)} type="button" className="btn btn-danger">Delete Account</button>
+              <button onClick={() => this.handleDelete()} type="button" className="btn btn-danger">Delete Account</button>
           </div>
         </div>
       </div>

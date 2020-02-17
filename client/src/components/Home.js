@@ -15,18 +15,6 @@ class Home extends React.Component {
       .then((res) => onLoad(res.data));
   }
 
-  handleDelete = (id) => {
-    const { onDelete } = this.props;
-
-    return axios.delete(`http://localhost:8000/api/articles/${id}`)
-      .then(() => onDelete(id));
-  }
-
-  handleEdit = (article) => {
-    const { setEdit } = this.props;
-    setEdit(article);
-  }
-
   getStyle = (keyword) => {
     let style = '';
     if(keyword === 'Arts'){
@@ -47,7 +35,7 @@ class Home extends React.Component {
 
   render() {
     const { articles } = this.props;
-
+    console.log(articles)
     return (
       <div className="app_container container">
         <div>
@@ -65,7 +53,7 @@ class Home extends React.Component {
                     <h5 className="mt-0"><Link to={`/article/view/${article._id}`}>{article.title}</Link></h5>
                     <span className={`badge ${this.getStyle(article.keyword[0])}`}>{article.keyword[0]}</span>
                     <p>{article.body.length > 200 ? article.body.substring(0,200) + '...' : article.body}</p>
-                    <p className="text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
+                    <p className="text-muted"><b>{article.author_name}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>
                 </div>
               )
@@ -82,9 +70,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: data => dispatch({ type: 'HOME_PAGE_LOADED', data }),
-  onDelete: id => dispatch({ type: 'DELETE_ARTICLE', id }),
-  setEdit: article => dispatch({ type: 'SET_EDIT', article }),
+  onLoad: data => dispatch({ type: 'HOME_PAGE_LOADED', data })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

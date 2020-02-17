@@ -42,24 +42,18 @@ class CreateArticle extends React.Component {
     const { onSubmit } = this.props;
     const { title, keyword, body, author } = this.state;
 
-    if(title === '' || body === '' || author === '' || keyword === ''){
+    if(title === '' || body === '' || keyword === ''){
       this.setState({
         error: 'Required fields missing'
       });
       return;
     }
 
-    console.log(title);
-    console.log(keyword);
-    console.log(body);
-    console.log(author);
-
     //Add Blog
     return axios.post('http://localhost:8000/api/articles/add', {
         title,
         keyword,
         body,
-        author,
     })
     .then((res) => onSubmit(res.data));
   }

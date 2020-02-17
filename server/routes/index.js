@@ -16,31 +16,34 @@ router.post('/api/articles/add', (req, res, next) => {
             error: ['Not authorized']
         });
     } else {
-        const { body } = req;
-        const newArticle = new Article(body);
-
         //Save article to user
         User.findOne({
             '_id': req.user._id
         }).exec().then((usr) => {
             if(usr){
-                usr.Articles.push(newArticle);
+                let { body } = req;
+                body['author_id'] = usr._id;
+                body['author_name'] = usr.full_name;
+
+                const newArticle = new Article(body);
+                usr['Articles'].push(newArticle);
                 usr.save((err, u) => {
                     if (err) return console.error("[ Add Article ] " + err);
                     console.log("[ Add Article ] Article saved to user: " + usr._id);
+                    console.log(newArticle);
+
+                    //Save article to collection
+                    newArticle.save((err, a) => {
+                        if (err) return console.error("[ Add Article ] " + err);
+                        console.log(`[ Add Article ] Article ${a.title} saved to collection by: ` + a.author_id);
+                        res.json({
+                            article: newArticle.toJSON(),
+                        });
+                    });
                 });
             }else{
                 console.log("[ Add Article ] No user found with ID: " + req.user._id);
             }
-        });
-
-        //Save article to collection
-        newArticle.save((err, a) => {
-            if (err) return console.error("[ Add Article ] " + err);
-            console.log(`[ Add Article ] Article ${a.title} saved to collection by: ` + a.author);
-            res.json({
-                article: newArticle.toJSON()
-            });
         });
     }
 });
@@ -85,6 +88,7 @@ router.patch('/api/articles/:id', (req, res, next) => {
     } else {
         const { body } = req;
 
+        console.log(body);
         if (typeof body.title !== 'undefined') {
             req.article.title = body.title;
         }
@@ -112,6 +116,7 @@ router.patch('/api/articles/:id', (req, res, next) => {
     }
 });
 
+//Delete article
 router.delete('/api/articles/:id', (req, res, next) => {
     if (!req.user) {
         console.log("[ Delete Article ] User is not authorized");
@@ -128,10 +133,10 @@ router.delete('/api/articles/:id', (req, res, next) => {
                 '_id': req.user._id
             }).exec().then((usr) => {
                 if(usr){
+                    console.log(usr.Articles);
                     usr.Articles = usr.Articles.filter((a) => {
-                                        return (a._id !== articleId);
+                                        return (a !== req.article._id);
                                     });
-                    console.log(usr.Articles);                
                     usr.save((err, u) => {
                         if (err) return console.error("[ Delete Article ] " + err);
                         console.log("[ Delete Article ] Article removed from user: " + usr._id);
@@ -146,6 +151,36 @@ router.delete('/api/articles/:id', (req, res, next) => {
                     });
                 }
             });
+        });
+    }
+});
+
+//Delete all articles
+router.delete('/api/articles', (req, res, next) => {
+    if (!req.user) {
+        res.json({error: ['Not authorized']});
+    } else {
+        User.findOne({
+            '_id': req.user._id
+        }).exec().then((usr) => {
+            if(usr){
+                usr.save((err, u) => {
+                    if (err) return console.error("[ Delete All Articles ] " + err);
+                    Article.deleteMany({
+                        author: req.user._id
+                    },function(err){
+                        if (err){
+                            res.json({error: ['No user found']});
+                        }
+                        res.json({
+                            user: usr
+                        });
+                    });
+                });
+            }else{
+                console.log("[ Delete All Articles ] No user found with ID: " + req.user._id);
+                res.json({error: ['No user found']});
+            }
         });
     }
 });
