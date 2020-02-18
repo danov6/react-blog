@@ -6,7 +6,7 @@ import axios from 'axios';
 class MyProfile extends React.Component {
 
   handleDelete = () => {
-    return axios.delete(`http://localhost:8000/api/articles`)
+    return axios.post(`http://localhost:8000/api/articles`)
       .then(() => {
         console.log('Delete all articles');
         window.location.pathname = "/";
@@ -16,20 +16,29 @@ class MyProfile extends React.Component {
   render() {
     const { user } = this.props;
     return (
-      <div className="app_container container">
-        <div>
-          <div className="col-12 col-lg-6 offset-lg-3">
-            <h1 className="text-center">My Account</h1>
+      <div>
+        <div className="app_container container">
+          <div>
+            <div className="col-12 col-lg-6 offset-lg-3">
+              <h1 className="text-center">My Account</h1>
+            </div>
+          </div>
+          <div className="row pt-5">
+            <div className="col-12">
+              <p>Welcome {user.full_name}!</p>
+            </div>
+          </div>
+          <div className="row pt-5">
+            <div className="col-12">
+                <button onClick={() => this.handleDelete()} type="button" className="btn btn-danger">Delete Account</button>
+            </div>
           </div>
         </div>
-        <div className="row pt-5">
-          <div className="col-12">
-            <p>Welcome {user.full_name}!</p>
-          </div>
-        </div>
-        <div className="row pt-5">
-          <div className="col-12">
-              <button onClick={() => this.handleDelete()} type="button" className="btn btn-danger">Delete Account</button>
+        <div className="app_container container">
+          <div>
+            <div className="col-12 col-lg-6 offset-lg-3">
+              <i>Comments:</i>
+            </div>
           </div>
         </div>
       </div>

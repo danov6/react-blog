@@ -12,21 +12,20 @@ class Navbar extends React.Component {
         isLoggedIn: false
     };
     componentDidMount(){
-        // Set axios JWT
+        const { setLoggedInUser, setLoggedOutUser } = this.props;
         let token = localStorage.getItem("JWT-Token");
         if (token) {
-            // Set axios defaults to include JWT in requests
             axios.defaults.headers.common = {'Authorization': 'Bearer ' + token};
             axios.get("http://localhost:8000/api/users/profile").then((response) => {
+                //An error took place, delete token and logout the user
                 if (response.data && response.data.error) {
-                    // Display error message
-                    alert(response.data.error);
+                    setLoggedOutUser();
+                    localStorage.removeItem("JWT-Token");
                     return;
                 }
 
                 //set user to redux store
                 const userData = response.data;
-                const { setLoggedInUser } = this.props;
                 setLoggedInUser(userData);
                 this.setState({
                     isLoggedIn: true
@@ -36,7 +35,6 @@ class Navbar extends React.Component {
             });
         } else {
             console.log("[ App ] Error: No token found!");
-            //this.props.history.replace('/login');
         }
     }
 
@@ -101,6 +99,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setLoggedInUser: user => dispatch({ type: 'LOGIN', user }),
+    setLoggedOutUser: () => dispatch({ type: 'LOGOUT' }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

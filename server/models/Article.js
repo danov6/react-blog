@@ -9,7 +9,7 @@ const ArticleSchema = new Schema({
   media: [String],
   upvotes: {
     type: Number,
-     default: 0
+    default: 0
   },
   author_id: String,
   author_name: String,
@@ -25,8 +25,11 @@ ArticleSchema.methods.toJSON = function() {
     title: this.title,
     body: this.body,
     keyword: this.keyword,
+    media: this.media,
+    upvotes: this.upvotes,
     author_id: this.author_id,
     author_name: this.author_name,
+    comments: this.comments,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

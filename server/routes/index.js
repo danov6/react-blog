@@ -23,7 +23,7 @@ router.post('/api/articles/add', (req, res, next) => {
             if(usr){
                 let { body } = req;
                 body['author_id'] = usr._id;
-                body['author_name'] = usr.full_name;
+                body['author_name'] = usr.username;
 
                 const newArticle = new Article(body);
                 usr['Articles'].push(newArticle);
@@ -88,22 +88,9 @@ router.patch('/api/articles/:id', (req, res, next) => {
     } else {
         const { body } = req;
 
-        console.log(body);
-        if (typeof body.title !== 'undefined') {
-            req.article.title = body.title;
-        }
-    
-        if (typeof body.author !== 'undefined') {
-            req.article.author = body.author;
-        }
-    
-        if (typeof body.body !== 'undefined') {
-            req.article.body = body.body;
-        }
-    
-        if (typeof body.keyword !== 'undefined') {
-            req.article.keyword = body.keyword;
-        }
+        Object.keys(body).forEach(function(prop){
+            req.article[prop] = body[prop];
+        });
     
         req.article.save()
         .then((a) => {
@@ -116,47 +103,38 @@ router.patch('/api/articles/:id', (req, res, next) => {
     }
 });
 
-//Delete article
-router.delete('/api/articles/:id', (req, res, next) => {
+//Delete article NEEDS WORK
+router.post('/api/articles/remove', (req, res, next) => {
     if (!req.user) {
         console.log("[ Delete Article ] User is not authorized");
         res.json({
             error: ['Not authorized']
         });
     } else {
-        let articleId = req.article._id;
+        let articleId = req.body._id;
         Article.findByIdAndRemove(articleId)
         .then(() => {
-            console.log(`[ Delete Article ] Article ${req.article.title} removed from collection`);
+            console.log(`[ Delete Article ] Article ${articleId} removed from collection`);
             //Save article to user
-            User.findOne({
-                '_id': req.user._id
-            }).exec().then((usr) => {
-                if(usr){
-                    console.log(usr.Articles);
-                    usr.Articles = usr.Articles.filter((a) => {
-                                        return (a !== req.article._id);
-                                    });
-                    usr.save((err, u) => {
-                        if (err) return console.error("[ Delete Article ] " + err);
-                        console.log("[ Delete Article ] Article removed from user: " + usr._id);
-                        res.json({
-                            user: u
-                        });
-                    });
-                }else{
-                    console.log("[ Delete Article ] No user found with ID: " + req.user._id);
+            User.findByIdAndUpdate(
+                req.user._id
+            ,
+            { $pull: { 'Articles': {  _id: articleId } } },(err,u) => {
+                if(err){
                     res.json({
-                        error: ['No user found']
+                        error: ['Not authorized']
                     });
                 }
+                res.json({
+                    user: u
+                });
             });
         });
     }
 });
 
 //Delete all articles
-router.delete('/api/articles', (req, res, next) => {
+router.post('/api/articles', (req, res, next) => {
     if (!req.user) {
         res.json({error: ['Not authorized']});
     } else {
@@ -164,8 +142,9 @@ router.delete('/api/articles', (req, res, next) => {
             '_id': req.user._id
         }).exec().then((usr) => {
             if(usr){
+                usr['Articles'] = [];
                 usr.save((err, u) => {
-                    if (err) return console.error("[ Delete All Articles ] " + err);
+                    if (err) res.json({error: [err]});
                     Article.deleteMany({
                         author: req.user._id
                     },function(err){
@@ -186,7 +165,7 @@ router.delete('/api/articles', (req, res, next) => {
 });
 
 //Create User
-router.post('/users/signup', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     if (req.body.email && email_validator.validate(req.body.email)) {
         User.findOne({
             'email': req.body.email
@@ -210,11 +189,11 @@ router.post('/users/signup', (req, res, next) => {
                         } else {
                             // Create new user
                             let newUser = new User();
-                            newUser.full_name = req.body.full_name;
-                            newUser.email = req.body.email;
-                            newUser.password = newUser.generateHash(req.body.password);
-                            newUser.username = req.body.username;
-                            newUser.account_type = "free";
+                            newUser['full_name'] = req.body.full_name;
+                            newUser['email'] = req.body.email;
+                            newUser['password'] = newUser.generateHash(req.body.password);
+                            newUser['username'] = req.body.username;
+                            newUser['account_type'] = "free";
                             // if (req.body.email === god_mode_email) {
                             //     newUser.role = "admin";
                             //     newUser.permissions = ["all"];
@@ -226,15 +205,12 @@ router.post('/users/signup', (req, res, next) => {
                                 });
                             }, function(err) {
                                 console.log("[ auth ] Error saving new user".red, err);
-                                // Build model validation error array
                                 let errObj = err.toJSON().errors;
                                 let errArr = [];
                                 for (let e in errObj) {
-                                    // Skip loop if the property is from prototype
                                     if (!errObj.hasOwnProperty(e)) continue;
                                     errArr.push(errObj[e].message);
                                 }
-                                // Respond with validation errors
                                 res.json({
                                     error: errArr
                                 });
@@ -262,7 +238,7 @@ router.post('/users/signup', (req, res, next) => {
 });
 
 //Login
-router.post('/users/login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username) {

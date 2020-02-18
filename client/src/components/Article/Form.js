@@ -32,12 +32,14 @@ class Form extends React.Component {
     });
   }
 
-  handleDelete = (id) => {
-    return axios.delete(`http://localhost:8000/api/articles/${id}`)
-      .then(() => {
-        console.log('Article deleted..');
-        window.location.pathname = "/";
-      });
+  handleDelete = () => {
+    return axios.post(`http://localhost:8000/api/articles/remove`,{
+      _id: this.state._id
+    })
+    .then(() => {
+      console.log('Article deleted..');
+      window.location.pathname = "/";
+    });
   }
 
   handleSubmit = () => {

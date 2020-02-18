@@ -42,7 +42,7 @@ class CreateAccount extends React.Component {
             error: "Passwords don't match"
         });
     }else{
-        axios.post('http://localhost:8000/users/signup', {
+        axios.post('http://localhost:8000/signup', {
             full_name,
             email,
             username,

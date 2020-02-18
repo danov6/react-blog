@@ -35,7 +35,7 @@ class Login extends React.Component {
         error: 'Missing username/password. Try again.'
       });
     }else{
-      axios.post('http://localhost:8000/users/login', {
+      axios.post('http://localhost:8000/login', {
           username,
           password,
       })

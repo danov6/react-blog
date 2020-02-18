@@ -34,6 +34,10 @@ body{
 #login_button:focus{
     outline: 0;
 }
+#simple_menu:focus{
+    outline: 0;
+    border: none;
+}
 .navbar-brand{
     color: #fff !important;
 }
@@ -57,4 +61,13 @@ body{
 
 .dropdown-toggle::after {
     content: none;
+}
+
+.MuiTouchRipple-root:focus, button.MuiButtonBase-root:focus{
+    border: none !important;
+    outline-color: #fff;
+}
+
+button.MuiButtonBase-root:focus{
+    outline: none;
 }
