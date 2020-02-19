@@ -51,15 +51,6 @@ class AccountDropdownMenu extends React.Component {
                     <MenuItem onClick={this.handleClose}><Link to="/" className="dropdown-item" onClick={this.handleLogout}>Logout</Link></MenuItem>
                 </Menu>
             </div>
-            // <div className="nav-item dropdown" id="login_button" style={{marginRight: 26}}>
-            //     <a className="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            //         <Avatar src={process.env.PUBLIC_URL + '/media/blank-profile-img.png'} style={{width: 30, height: 30}} alt="Profile Image" />
-            //     </a>
-            //     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            //         <Link to="/account/profile" className="dropdown-item">Profile</Link>
-            //         <Link to="/" className="dropdown-item" onClick={this.handleLogout}>Logout</Link>
-            //     </div>
-            // </div>
         );
     }
 }

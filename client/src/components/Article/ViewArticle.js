@@ -3,10 +3,11 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+
 import LoadingSpinner from './../LoadingSpinner';
+import CommentSection from './CommentSection';
 
 class ViewArticle extends React.Component {
 
@@ -15,7 +16,6 @@ class ViewArticle extends React.Component {
         isAuthor: false,
         isLoading: true,
         articleLiked: false,
-        commentValue: ''
     };
 
     componentDidMount(){
@@ -30,14 +30,14 @@ class ViewArticle extends React.Component {
         });
     }
 
-    handleCommentText = (key, event) => {
-        this.setState({
-          [key]: event.target.value,
-        });
+    handleLike = () => {
+        this.setState(prevState => ({
+            articleLiked: !prevState.articleLiked
+        }));
     }
 
     render() {
-        const { article, isLoading } = this.state;
+        const { article, isLoading, articleLiked } = this.state;
         return (
             <div>
                 <div className="app_container jumbotron">
@@ -54,29 +54,16 @@ class ViewArticle extends React.Component {
                         <div><span className="badge badge-pill badge-primary">{article.keyword}</span></div>
                         <br />
                         <div>
-                            <IconButton aria-label="delete" className="thumbs_up">
-                                <ThumbUpAltIcon style={{cursor: 'pointer'}} color="primary" fontSize="large"/>
+                            <IconButton aria-label="delete" className="thumbs_up" onClick={this.handleLike}>
+                                {articleLiked ? <ThumbUpAltIcon style={{cursor: 'pointer'}} color="primary" fontSize="large"/> :
+                                <ThumbUpAltOutlinedIcon style={{cursor: 'pointer'}} color="primary" fontSize="large"/>
+                                }
                             </IconButton>
                             <span style={{color: '#3f50b5', fontSize: 25, verticalAlign: 'middle','marginLeft': 10}}>{article.upvotes}</span>
                         </div>
                         <br />
                         <hr />
-                        <i>Comments ({article.comments.length})</i>
-                        <br />
-                        <TextField
-                        id="outlined-multiline-static"
-                        label="Write a response"
-                        multiline
-                        rows="3"
-                        // placeholder="Write a response.."
-                        variant="outlined"
-                        name="name"
-                        style={{width: '100%', margin: '15px 0px'}}
-                        onChange={(ev) => this.handleCommentText('comment', ev)}
-                        />
-                        <Button variant="contained" color="primary">
-                        Submit
-                        </Button>
+                        <CommentSection comments={article.comments} />   
                     </div>    
                     }
                 </div>
