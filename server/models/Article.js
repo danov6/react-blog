@@ -7,12 +7,12 @@ const ArticleSchema = new Schema({
   body: String,
   keyword: [String],
   media: [String],
-  upvotes: {
-    type: Number,
-    default: 0
-  },
   author_id: String,
   author_name: String,
+  upvotes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
@@ -26,9 +26,9 @@ ArticleSchema.methods.toJSON = function() {
     body: this.body,
     keyword: this.keyword,
     media: this.media,
-    upvotes: this.upvotes,
     author_id: this.author_id,
     author_name: this.author_name,
+    upvotes: this.upvotes,
     comments: this.comments,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import IconButton from '@material-ui/core/IconButton';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -23,14 +24,30 @@ class ViewArticle extends React.Component {
         axios(`http://localhost:8000/articles/${articleId}`)
         .then(res => {
             let data = res.data;
+            const { user } = this.props;
+
+            console.log(user)
             this.setState({
                 article: data.article,
+                articleLiked: (data.article.upvotes.indexOf(user._id) != -1),
                 isLoading: false
             });
         });
     }
 
     handleLike = () => {
+        const articleId = this.props.match.params.articleId;
+
+        axios.post('http://localhost:8000/api/articles/vote',{
+            _id: articleId
+        })
+        .then((res) => {
+            let data = res.data;
+            this.setState({
+                article: data.article
+            });
+        });
+
         this.setState(prevState => ({
             articleLiked: !prevState.articleLiked
         }));
@@ -55,11 +72,11 @@ class ViewArticle extends React.Component {
                         <br />
                         <div>
                             <IconButton aria-label="delete" className="thumbs_up" onClick={this.handleLike}>
-                                {articleLiked ? <ThumbUpAltIcon style={{cursor: 'pointer'}} color="primary" fontSize="large"/> :
+                                {articleLiked ? <ThumbUpAltIcon style={{cursor: 'pointer'}} color="primary" fontSize="large" /> :
                                 <ThumbUpAltOutlinedIcon style={{cursor: 'pointer'}} color="primary" fontSize="large"/>
                                 }
                             </IconButton>
-                            <span style={{color: '#3f50b5', fontSize: 25, verticalAlign: 'middle','marginLeft': 10}}>{article.upvotes}</span>
+                            <span style={{color: '#3f50b5', fontSize: 25, verticalAlign: 'middle','marginLeft': 10}}>{article.upvotes.length}</span>
                         </div>
                         <br />
                         <hr />
@@ -72,4 +89,8 @@ class ViewArticle extends React.Component {
     }
 }
 
-export default ViewArticle;
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps,null)(ViewArticle);

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React from 'react';
-import {
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import LoadingSpinner from '../LoadingSpinner';
 
@@ -26,6 +25,7 @@ class CreateAccount extends React.Component {
 
   handleCreateAccount = () => {
     const { full_name, email, username, password, confirm_password } = this.state;
+    const { setLoggedInUser } = this.props;
 
     this.setState({
       isLoading: true
@@ -59,9 +59,12 @@ class CreateAccount extends React.Component {
                 this.setState({
                     isLoading: false
                 });
-                console.log('CREATED')
+
                 //setSessionToken(data.token);
                 //console.log('Token: ' + data.token);
+                localStorage.setItem('JWT-Token', data.token);
+                setLoggedInUser(data.user);
+                window.location.pathname = "/account/profile";
             }
         });
     }
@@ -145,4 +148,8 @@ class CreateAccount extends React.Component {
   }
 }
 
-export default CreateAccount;
+const mapDispatchToProps = dispatch => ({
+  setLoggedInUser: user => dispatch({ type: 'LOGIN', user }),
+});
+
+export default connect(null, mapDispatchToProps)(CreateAccount);

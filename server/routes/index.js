@@ -26,7 +26,7 @@ router.post('/api/articles/add', (req, res, next) => {
                 body['author_name'] = usr.username;
 
                 const newArticle = new Article(body);
-                usr['Articles'].push(newArticle);
+                usr['articles'].push(newArticle);
                 usr.save((err, u) => {
                     if (err) return console.error("[ Add Article ] " + err);
                     console.log("[ Add Article ] Article saved to user: " + usr._id);
@@ -116,19 +116,17 @@ router.post('/api/articles/remove', (req, res, next) => {
         .then(() => {
             console.log(`[ Delete Article ] Article ${articleId} removed from collection`);
             //Save article to user
-            User.findByIdAndUpdate(
-                req.user._id
-            ,
-            { $pull: { 'Articles': {  _id: articleId } } },(err,u) => {
-                if(err){
+            User.findOne({
+                '_id': req.user._id
+            }).exec().then((usr) => {
+                if(usr){
+                    usr['articles'].pull(req.body._id);
+                }else{
                     res.json({
-                        error: ['Not authorized']
+                        error: ['User not found']
                     });
                 }
-                res.json({
-                    user: u
-                });
-            });
+            })
         });
     }
 });
@@ -159,6 +157,46 @@ router.post('/api/articles', (req, res, next) => {
             }else{
                 console.log("[ Delete All Articles ] No user found with ID: " + req.user._id);
                 res.json({error: ['No user found']});
+            }
+        });
+    }
+});
+
+router.post('/api/articles/vote', (req, res, next) => {
+    if (!req.user) {
+        console.log("[ Upvote Article ] User is not authorized");
+        res.json({
+            error: ['Not authorized']
+        });
+    } else {
+        User.findOne({
+            '_id': req.user._id
+        }).exec().then((usr) => {
+            if(usr){
+                Article.findOne({
+                    '_id': req.body._id
+                }).exec().then((art) => {
+                    if(art){
+                        if(art['upvotes'].indexOf(req.user._id) != -1){
+                            art['upvotes'].pull(req.user._id);
+                        }else{
+                            art['upvotes'].push(req.user._id);
+                        }
+                        art.save((err,a) => {
+                            res.json({
+                                article: a
+                            });
+                        });
+                    }else{
+                        res.json({
+                            error: ['Article not found. Refresh the page']
+                        });
+                    }
+                });
+            }else{
+                res.json({
+                    error: ['User not logged in']
+                });
             }
         });
     }
@@ -198,10 +236,16 @@ router.post('/signup', (req, res, next) => {
                             //     newUser.role = "admin";
                             //     newUser.permissions = ["all"];
                             // }
-                            newUser.save().then(function() {
-                                console.log("[ auth ] NEW USER CREATED: ".green + newUser.email);
+                            newUser.save((err,u) => {
+                                let user = {
+                                    _id: u._id
+                                };
+                                let token = jwt.sign(user, secret, {
+                                    expiresIn: '7d'
+                                }); // Expires in 1 week
                                 res.json({
-                                    email: req.body.email
+                                    user: u,
+                                    token
                                 });
                             }, function(err) {
                                 console.log("[ auth ] Error saving new user".red, err);

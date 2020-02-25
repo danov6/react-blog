@@ -31,8 +31,7 @@ let UserSchema = new Schema({
         required: [true, "Display name cannot be blank"]
     },
     profile_img_url: {
-        type: String,
-
+        type: String
     },
     account_type: {
         type: String,
@@ -46,7 +45,7 @@ let UserSchema = new Schema({
         reset_password_token: {type: String},
         reset_password_expires: {type: Date},
     },
-    Articles: [{
+    articles: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Article'
     }]
