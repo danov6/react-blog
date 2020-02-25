@@ -41,6 +41,10 @@ let UserSchema = new Schema({
         type: Date,
         default: new Date()
     },
+    is_facebook_account: {
+        type: Boolean,
+        default: false
+    },
     tokens: {
         reset_password_token: {type: String},
         reset_password_expires: {type: Date},

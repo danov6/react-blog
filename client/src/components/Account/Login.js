@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 
 import LoadingSpinner from '../LoadingSpinner';
+import FacebookLogin from 'react-facebook-login';
+
+const FACEBOOK_APP_ID = '1054583474921502';
 
 class Login extends React.Component {
   
@@ -12,6 +15,7 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
+      isFacebookLoading: false,
       error: ''
   };
 
@@ -55,8 +59,15 @@ class Login extends React.Component {
     }
   }
 
+  handleFacebookResponse = (res) => {
+    console.log(res);
+    this.setState({
+      isFacebookLoading: false
+    });
+  }
+
   render() {
-    const { username, password, error, isLoading } = this.state;
+    const { username, password, error, isLoading, isFacebookLoading } = this.state;
 
     return (
       <div className="app_container col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
@@ -100,6 +111,20 @@ class Login extends React.Component {
           <Link to="/account/password-reset" className="float-right">Forgot Password?</Link>
         </div>
         {isLoading ? <LoadingSpinner /> : <button onClick={this.handleLogin} className="btn btn-primary my-2" style={{width: '100%'}}>Login</button> }
+        {isFacebookLoading ?
+          <LoadingSpinner /> 
+          :
+          <FacebookLogin
+            appId={FACEBOOK_APP_ID}
+            autoLoad={false}
+            fields="name,email,picture,user_link"
+            callback={this.handleFacebookResponse}
+            onClick={() => this.setState({isFacebookLoading: true})}
+            icon="fa-facebook"
+            cssClass="my-facebook-button-class"
+          />
+        }
+        
         <hr/>
         <div className="form-group">
           <h5 style={{textAlign: 'center', width: '100%'}} className="mb-3">Don't have an account?</h5>

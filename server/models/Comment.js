@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const CommentSchema = new Schema({
-    article: String,
+    article: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Article'
+    },
     author: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

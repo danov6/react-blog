@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
+const Comment = mongoose.model('Comment');
 const jwt = require('jsonwebtoken');
 const email_validator = require("email-validator");
 
@@ -121,6 +122,17 @@ router.post('/api/articles/remove', (req, res, next) => {
             }).exec().then((usr) => {
                 if(usr){
                     usr['articles'].pull(req.body._id);
+                    usr.save((err,u) => {
+                        if(err){
+                            res.json({
+                                error: [err]
+                            });
+                        }else{
+                            res.json({
+                                user: u
+                            });
+                        }
+                    });
                 }else{
                     res.json({
                         error: ['User not found']
@@ -185,6 +197,50 @@ router.post('/api/articles/vote', (req, res, next) => {
                         art.save((err,a) => {
                             res.json({
                                 article: a
+                            });
+                        });
+                    }else{
+                        res.json({
+                            error: ['Article not found. Refresh the page']
+                        });
+                    }
+                });
+            }else{
+                res.json({
+                    error: ['User not logged in']
+                });
+            }
+        });
+    }
+});
+
+router.post('/api/articles/comment', (req, res, next) => {
+    if (!req.user) {
+        console.log("[ Comment Article ] User is not authorized");
+        res.json({
+            error: ['Not authorized']
+        });
+    } else {
+        User.findOne({
+            '_id': req.user._id
+        }).exec().then((usr) => {
+            if(usr){
+                Article.findOne({
+                    '_id': req.body._id
+                }).exec().then((art) => {
+                    if(art){
+                        //create new comment
+                        let newComment = new Comment();
+                        newComment['author'] = usr;
+                        newComment['article'] = art;
+                        newComment['body'] = req.body.body
+
+                        art['comments'].push(newComment);
+                        art.save((err,a) => {
+                            newComment.save(() => {
+                                res.json({
+                                    article: a
+                                });
                             });
                         });
                     }else{
