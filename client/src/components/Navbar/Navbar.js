@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import AccountDropdownMenu from './AccountDropdownMenu';
+import NotificationsDropdownMenu from './NotificationsDropdownMenu';
 
 import { Link } from "react-router-dom";
 
@@ -50,7 +51,6 @@ class Navbar extends React.Component {
     }
 
     render(){
-        console.log(this.props.user)
         return(
             <nav className="navbar navbar-expand-sm navbar-light bg-dark" id="navbar">
                 <Link to="/" className="navbar-brand">Blog of Interests</Link>
@@ -67,10 +67,10 @@ class Navbar extends React.Component {
                         </svg>
                     </button>
                     <form className="form-inline my-2 my-lg-0" id="search_form" className="hide"><input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" autoFocus /></form>
-                    {Object.keys(this.props.user).length === 0 ?
-                        <span></span>
-                    :
-                        <AccountDropdownMenu />
+                    {Object.keys(this.props.user).length === 0 ? 
+                        ""
+                    : 
+                        <NotificationsDropdownMenu />
                     }
                     {Object.keys(this.props.user).length === 0 ? 
                         <Link to="/account/login">
@@ -80,6 +80,11 @@ class Navbar extends React.Component {
                         <Link to="/article/create">
                             <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Create!</button>
                         </Link>
+                    }
+                    {Object.keys(this.props.user).length === 0 ?
+                        <span></span>
+                    :
+                        <AccountDropdownMenu />
                     }
                 </div>
             </nav>

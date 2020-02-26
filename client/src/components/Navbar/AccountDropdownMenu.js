@@ -35,7 +35,7 @@ class AccountDropdownMenu extends React.Component {
     render(){
         const { anchorEl } = this.state;
         return(
-            <div className="nav-item dropdown" id="login_button" style={{marginRight: 26}}>
+            <div className="nav-item dropdown" id="login_button" style={{marginLeft: 16}}>
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                     <Avatar src={process.env.PUBLIC_URL + '/media/blank-profile-img.png'} style={{width: 30, height: 30}} alt="Profile Image" />
                 </Button>
