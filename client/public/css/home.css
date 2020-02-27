@@ -49,6 +49,9 @@ body{
     overflow: hidden;
     margin-right: 1%;
 }
+.navbar{
+    padding: .3rem 1rem;
+}
 .search_show {
     transition-property: width !important;
     left: 0 !important;
@@ -58,16 +61,22 @@ body{
     transition-property: width, left !important;
     width: 0 !important;
 }
-
 .dropdown-toggle::after {
     content: none;
 }
-
+.MuiBadge-anchorOriginTopRightRectangle {
+    top: 3px !important;
+}
 .MuiTouchRipple-root:focus, button.MuiButtonBase-root:focus {
     border: none !important;
     outline-color: #fff;
 }
-
+.MuiIconButton-root {
+   padding: 2px !important; 
+}
+.MuiListItem-gutters {
+    padding-left: 0px !important;
+}
 .my-facebook-button-class {
     background-color: #4267b2;
     color: #fff;
@@ -91,4 +100,8 @@ body{
 
 button.MuiButtonBase-root:focus {
     outline: none;
+}
+
+.ck.ck-editor__main>.ck-editor__editable {
+    height: 300px;
 }

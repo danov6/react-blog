@@ -128,7 +128,7 @@ class ViewArticle extends React.Component {
                         ""
                         }
                         <hr className="mb-4" />
-                        <div id="article_content">{this.loadBody()}</div>
+                        <div id="article_content">{this.loadBody()}</div><br />
                         <Chip label={article.keyword} variant="outlined" />
                         <br /><br />
                         <div>

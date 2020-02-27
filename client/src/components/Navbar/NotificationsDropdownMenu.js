@@ -40,7 +40,7 @@ class NotificationsDropdownMenu extends React.Component {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={this.handleClose}
-                    style={{top: 52}}
+                    style={{top: 45}}
                 >
                     <MenuItem>Test</MenuItem>
                     <MenuItem>Test</MenuItem>

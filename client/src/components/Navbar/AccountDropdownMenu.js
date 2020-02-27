@@ -45,7 +45,7 @@ class AccountDropdownMenu extends React.Component {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={this.handleClose}
-                    style={{top: 52}}
+                    style={{top: 45}}
                 >
                     <MenuItem onClick={this.handleClose}><Link to="/account/profile" className="dropdown-item">Profile</Link></MenuItem>
                     <MenuItem onClick={this.handleClose}><Link to="/" className="dropdown-item" onClick={this.handleLogout}>Logout</Link></MenuItem>
