@@ -214,7 +214,7 @@ router.post('/api/articles/vote', (req, res, next) => {
     }
 });
 
-router.post('/api/articles/comment', (req, res, next) => {
+router.post('/api/comments/add', (req, res, next) => {
     if (!req.user) {
         console.log("[ Comment Article ] User is not authorized");
         res.json({
@@ -236,10 +236,16 @@ router.post('/api/articles/comment', (req, res, next) => {
                         newComment['body'] = req.body.body
 
                         art['comments'].push(newComment);
+
+                        //add comment to article
                         art.save((err,a) => {
-                            newComment.save(() => {
+                            //add comment to collection
+                            console.log(a);
+                            newComment.save((err,c) => {
+                                console.log(c);
                                 res.json({
-                                    article: a
+                                    comments: art.toJSON().comments,
+                                    // comments: a.comments
                                 });
                             });
                         });

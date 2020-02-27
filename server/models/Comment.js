@@ -18,4 +18,16 @@ const CommentSchema = new Schema({
     body: String,
 }, { timestamps: true });
 
+CommentSchema.methods.toJSON = function() {
+    return {
+      _id: this._id,
+      article: this.article,
+      author: this.author,
+      upvotes: this.upvotes,
+      body: this.body,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  };
+
 mongoose.model('Comment', CommentSchema);
