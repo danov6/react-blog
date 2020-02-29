@@ -67,11 +67,11 @@ class Navbar extends React.Component {
                         </svg>
                     </button>
                     <form className="form-inline my-2 my-lg-0" id="search_form" className="hide"><input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" autoFocus /></form>
-                    {Object.keys(this.props.user).length === 0 ? 
+                    {/* {Object.keys(this.props.user).length === 0 ? 
                         ""
                     : 
                         <NotificationsDropdownMenu />
-                    }
+                    } */}
                     {Object.keys(this.props.user).length === 0 ? 
                         <Link to="/account/login">
                             <button className="btn btn-success my-2 my-sm-0" type="button" id="create_button">Login</button>

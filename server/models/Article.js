@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const ArticleSchema = new Schema({
   title: String,
+  headline: String,
   body: String,
   keyword: [String],
   media: [String],
@@ -23,6 +24,7 @@ ArticleSchema.methods.toJSON = function() {
   return {
     _id: this._id,
     title: this.title,
+    headline: this.headline,
     body: this.body,
     keyword: this.keyword,
     media: this.media,

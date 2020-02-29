@@ -115,7 +115,7 @@ class CreateArticle extends React.Component {
               const data = editor.getData();
               this.handleChangeEditor(data)
           } }
-      />
+        />
         <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link my-3">Cancel</button></Link>
         {/* <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Create Blog</button></Link> */}
         <button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Create Blog</button>

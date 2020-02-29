@@ -3,19 +3,17 @@ import { connect } from 'react-redux';
 
 import Form from './Form';
 
-class EditArticle extends React.Component {
-  render() {
-    return (
-      <div className="app_container container">
-        <div>
-          <div className="col-12">
-            <h1 className="text-center">Edit</h1>
-          </div>
-          <Form articleId={this.props.match.params.articleId} />
+const EditArticle = () => {
+  return (
+    <div className="app_container container">
+      <div>
+        <div className="col-12">
+          <h1 className="text-center">Edit</h1>
         </div>
+        <Form articleId={this.props.match.params.articleId} />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const mapStateToProps = state => ({

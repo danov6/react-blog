@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 let keywords = ['Sports', 'Music', 'Arts', 'Education', 'Technology', 'Software'];
 
@@ -84,6 +85,12 @@ class Form extends React.Component {
     });
   }
 
+  handleChangeEditor = (value) => {
+    this.setState({
+      body: value
+    });
+  }
+
   render() {
     const { _id, title, body, keyword, error } = this.state;
 
@@ -109,13 +116,15 @@ class Form extends React.Component {
             return <option key={index} value={keyword}>{keyword}</option>
           })}
         </select>
-        <textarea
-          onChange={(ev) => this.handleChangeField('body', ev)}
-          className="form-control my-3"
-          placeholder="Article Body"
+        <CKEditor
+          editor={ ClassicEditor }
+          data={body}
           value={body}
-          style={{height: 220}}>
-        </textarea>
+          onChange={ ( event, editor ) => {
+              const data = editor.getData();
+              this.handleChangeEditor(data)
+          } }
+        />
         <Link to={`/article/view/${_id}`}><button type="button" className="btn btn-link">Cancel</button></Link>
         <button onClick={() => this.handleDelete(_id)} type="button" className="btn btn-danger">Delete</button>
         <button onClick={this.handleSubmit} className="btn btn-primary float-right">Update</button>

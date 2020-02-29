@@ -111,7 +111,7 @@ class Login extends React.Component {
           <Link to="/account/password-reset" className="float-right">Forgot Password?</Link>
         </div>
         {isLoading ? <LoadingSpinner /> : <button onClick={this.handleLogin} className="btn btn-primary my-2" style={{width: '100%'}}>Login</button> }
-        {isFacebookLoading ?
+        {/* {isFacebookLoading ?
           <LoadingSpinner /> 
           :
           <FacebookLogin
@@ -123,7 +123,7 @@ class Login extends React.Component {
             icon="fa-facebook"
             cssClass="my-facebook-button-class"
           />
-        }
+        } */}
         
         <hr/>
         <div className="form-group">

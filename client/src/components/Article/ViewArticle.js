@@ -140,7 +140,7 @@ class ViewArticle extends React.Component {
                             <span style={{color: '#3f50b5', fontSize: 25, verticalAlign: 'middle','marginLeft': 10}}>{article.upvotes.length}</span>
                         </div>
                         <hr />
-                        <CommentSection articleId={article._id} comments={article.comments} />   
+                        {/* <CommentSection articleId={article._id} comments={article.comments} />    */}
                     </div>    
                     }
                 </div>
