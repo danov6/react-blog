@@ -34,7 +34,6 @@ class Home extends React.Component {
 
   render() {
     const { articles } = this.props;
-    console.log(articles)
     return (
       <div className="app_container container">
         <Helmet>
@@ -54,7 +53,7 @@ class Home extends React.Component {
                   <div className="media-body">
                     <h5 className="mt-0"><Link to={`/article/view/${article._id}`}>{article.title}</Link></h5>
                     <span className={`badge ${this.getStyle(article.keyword[0])}`}>{article.keyword[0]}</span>
-                    <p>{article.body.length > 200 ? article.body.substring(0,200) + '...' : article.body}</p>
+                    <p>{article.body.length > 150 ? article.body.substring(0,150).replace(/(<([^>]+)>)/ig, "") + '...' : article.body.replace(/(<([^>]+)>)/ig, "")}</p>
                     <p className="text-muted"><b>{article.author_name}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>
                 </div>
