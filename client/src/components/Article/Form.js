@@ -102,7 +102,7 @@ class Form extends React.Component {
             {error}
           </div>
          :
-         <div></div>
+         ""
         }
         <input
           onChange={(ev) => this.handleChangeField('title', ev)}
@@ -110,7 +110,7 @@ class Form extends React.Component {
           className="form-control my-3"
           placeholder="Article Title"
         />
-        <select className="form-control" value={keyword} onChange={(ev) => this.handleChangeField('keyword', ev)}>
+        <select className="form-control  mb-3" value={keyword} onChange={(ev) => this.handleChangeField('keyword', ev)}>
           <option value="" disabled defaultValue>Select Keyword</option>
           {keywords.map((keyword,index) => {
             return <option key={index} value={keyword}>{keyword}</option>
@@ -125,9 +125,9 @@ class Form extends React.Component {
               this.handleChangeEditor(data)
           } }
         />
-        <Link to={`/article/view/${_id}`}><button type="button" className="btn btn-link">Cancel</button></Link>
-        <button onClick={() => this.handleDelete(_id)} type="button" className="btn btn-danger">Delete</button>
-        <button onClick={this.handleSubmit} className="btn btn-primary float-right">Update</button>
+        <Link to={`/article/view/${_id}`}><button type="button" className="btn btn-link my-3">Cancel</button></Link>
+        <button onClick={() => this.handleDelete(_id)} type="button" className="btn btn-danger my-3">Delete</button>
+        <button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Update</button>
       </div>
     )
   }

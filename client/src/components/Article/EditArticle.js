@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import Form from './Form';
 
-const EditArticle = () => {
+const EditArticle = (props) => {
   return (
     <div className="app_container container">
       <div>
         <div className="col-12">
           <h1 className="text-center">Edit</h1>
         </div>
-        <Form articleId={this.props.match.params.articleId} />
+        <Form articleId={props.match.params.articleId} />
       </div>
     </div>
   );

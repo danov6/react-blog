@@ -1,0 +1,107 @@
+body{
+    background-color: #eeeeee;
+}
+#create_button{
+    padding: .1rem .75rem;
+}
+.app_container{
+    background-color: rgb(255, 255, 255);
+    padding: 6%;
+    margin-top: 3%;
+    border-radius: 1%;
+}
+#edit_button{
+    color: #fff !important;
+    border: 1px solid #000 !important;
+    background-color: #000 !important;
+  }
+#edit_button:hover{
+    color: #000 !important;
+    background-color: #fff !important;
+}
+#search_button{
+    background: none;
+    border: none;
+}
+#search_button:focus{
+    outline: 0;
+}
+#login_button{
+    background: none;
+    border: none;
+    color: #fff;
+}
+#login_button:focus{
+    outline: 0;
+}
+#simple_menu:focus{
+    outline: 0;
+    border: none;
+}
+.navbar-brand{
+    color: #fff !important;
+}
+#search_form {
+    position: relative;
+    left: 0;
+    width: 0;
+    transition: all 0.3s linear;
+    overflow: hidden;
+    margin-right: 1%;
+}
+.navbar{
+    padding: .3rem 1rem;
+}
+.search_show {
+    transition-property: width !important;
+    left: 0 !important;
+    width: 200px !important;
+}
+.search_hide {
+    transition-property: width, left !important;
+    width: 0 !important;
+}
+.dropdown-toggle::after {
+    content: none;
+}
+.MuiBadge-anchorOriginTopRightRectangle {
+    top: 3px !important;
+}
+.MuiTouchRipple-root:focus, button.MuiButtonBase-root:focus {
+    border: none !important;
+    outline-color: #fff;
+}
+.MuiIconButton-root {
+   padding: 2px !important; 
+}
+.MuiListItem-gutters {
+    padding-left: 0px !important;
+}
+.my-facebook-button-class {
+    background-color: #4267b2;
+    color: #fff;
+    width: 100%;
+    border-radius: .25rem;
+    border: none;
+    padding: .375rem .75rem;
+}
+.my-facebook-button-class:hover {
+    background-color: #375798;
+}
+
+.my-facebook-button-class:focus, .my-facebook-button-class:focus {
+    border: none !important;
+    outline-color: #fff;
+}
+
+.my-facebook-button-class > i {
+    margin-right: 10px;
+}
+
+button.MuiButtonBase-root:focus {
+    outline: none;
+}
+
+.ck.ck-editor__main>.ck-editor__editable {
+    height: 300px;
+}

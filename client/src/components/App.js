@@ -1,5 +1,6 @@
 import React from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route, BrowserRouter, Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import Home from './Home';
 import EditArticle from './Article/EditArticle';
@@ -12,24 +13,31 @@ import CreateAccount from './Account/CreateAccount';
 import MyProfile from './Account/MyProfile';
 
 import Navbar from './Navbar/Navbar';
+import store from './../store';
+
+const createBrowserHistory = require("history").createBrowserHistory;
 
 const App = () => {
   return (
-    <React.Fragment>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/account/login" component={Login} />
-        <Route exact path="/account/profile" component={MyProfile} />
-        <Route exact path="/account/password-reset" component={ForgotPassword} />
-        <Route exact path="/account/create-account" component={CreateAccount} />
-        <Route exact path="/article/create" component={CreateArticle} />
-        <Route exact path="/article/edit/:articleId" component={EditArticle} />
-        <Route exact path="/article/view/:articleId" component={ViewArticle} />
-        {/* <Route component={404} /> */}
-      </Switch>
-    </React.Fragment>
+    <Router history={createBrowserHistory()}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/account/login" component={Login} />
+            <Route exact path="/account/profile" component={MyProfile} />
+            <Route exact path="/account/password-reset" component={ForgotPassword} />
+            <Route exact path="/account/create-account" component={CreateAccount} />
+            <Route exact path="/article/create" component={CreateArticle} />
+            <Route exact path="/article/edit/:articleId" component={EditArticle} />
+            <Route exact path="/article/view/:articleId" component={ViewArticle} />
+            {/* <Route component={404} /> */}
+          </Switch>
+        </Provider>
+      </BrowserRouter>
+    </Router>
   );
 }
 
-export default withRouter(App);
+export default App;

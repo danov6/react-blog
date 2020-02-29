@@ -3,7 +3,7 @@ let Schema = mongoose.Schema;
 let bcrypt = require('bcrypt');
 let uniqueValidator = require('mongoose-unique-validator');
 let validator = require('validator');
-
+ 
 let UserSchema = new Schema({
     email: {
         type: String,
