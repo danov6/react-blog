@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Switch, Route, BrowserRouter, Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import Home from './Home';
+import Home from './Home/Home';
 import EditArticle from './Article/EditArticle';
 import ViewArticle from './Article/ViewArticle';
 import CreateArticle from './Article/CreateArticle';
@@ -13,6 +13,7 @@ import CreateAccount from './Account/CreateAccount';
 import MyProfile from './Account/MyProfile';
 
 import Navbar from './Navbar/Navbar';
+import Footer from './Footer/Footer';
 import store from './../store';
 
 const createBrowserHistory = require("history").createBrowserHistory;
@@ -34,6 +35,7 @@ const App = () => {
             <Route exact path="/article/view/:articleId" component={ViewArticle} />
             {/* <Route component={404} /> */}
           </Switch>
+          <Footer />
         </Provider>
       </BrowserRouter>
     </Router>

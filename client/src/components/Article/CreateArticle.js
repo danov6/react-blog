@@ -82,7 +82,7 @@ class CreateArticle extends React.Component {
             {error}
           </div>
          :
-         <div></div>
+         ""
         }
         <h1 style={{textAlign: 'center'}}>Create something</h1>
         <input
