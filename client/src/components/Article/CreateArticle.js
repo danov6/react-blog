@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+import { Editor } from '@tinymce/tinymce-react'; 
+
 let keywords = ['Sports', 'Music', 'Arts', 'Education', 'Technology', 'Software'];
 
 class CreateArticle extends React.Component {
@@ -56,7 +58,10 @@ class CreateArticle extends React.Component {
         keyword,
         body,
     })
-    .then((res) => onSubmit(res.data));
+    .then((res) => {
+      onSubmit(res.data);
+      window.location.pathname = "/article/view/" + res.data.article._id;
+    });
   }
 
   handleChangeEditor = (value) => {
@@ -97,15 +102,9 @@ class CreateArticle extends React.Component {
             return <option key={index} value={keyword}>{keyword}</option>
           })}
         </select>
-        {/* <textarea
-          onChange={(ev) => this.handleChangeField('body', ev)}
-          className="form-control my-3"
-          placeholder="Article Body"
-          value={body}>
-        </textarea> */}
         <CKEditor
           editor={ ClassicEditor }
-          data="<p>Hello from CKEditor 5!</p>"
+          data="<p></p>"
           value={body}
           onInit={ editor => {
               // You can store the "editor" and use when it is needed.
@@ -115,6 +114,24 @@ class CreateArticle extends React.Component {
               const data = editor.getData();
               this.handleChangeEditor(data)
           } }
+        />
+        <Editor
+        initialValue="<p></p>"
+        apiKey="9qsl05h6rplbzku2trm1ice91pug03n75zxy9o54hx96o9y5"
+        init={{
+          height: 500,
+          menubar: false,
+          plugins: [
+            'advlist autolink lists link image', 
+            'charmap print preview anchor help',
+            'searchreplace visualblocks code',
+            'insertdatetime media table paste wordcount'
+          ],
+          toolbar:
+            'undo redo | formatselect | bold italic | \
+            bullist numlist outdent indent | code'
+        }}
+        onChange={this.handleEditorChange}
         />
         <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link my-3">Cancel</button></Link>
         {/* <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Create Blog</button></Link> */}

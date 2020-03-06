@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import LoadingSpinner from '../LoadingSpinner';
 import FacebookLogin from 'react-facebook-login';
 
-const FACEBOOK_APP_ID = '1054583474921502';
+//const FACEBOOK_APP_ID = '1054583474921502';
 
 class Login extends React.Component {
   

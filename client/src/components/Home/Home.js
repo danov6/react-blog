@@ -38,30 +38,30 @@ class Home extends React.Component {
                 
                 <div className="text">
                   <h2>{articles[0].title}</h2>
-                  <span className="date" style={{paddingRight: 20}}>{moment(articles[0].createdAt).format('LL')}</span>
+                  <span className="date" style={{paddingRight: 15}}>{moment(articles[0].createdAt).format('LL')}</span>
                   <span><ThumbUpAltIcon fontSize="small" />&nbsp;{articles[0].upvotes.length}</span>
                 </div>
               </Link>
               <Link to={`/article/view/${articles[1]._id}`} className="h-entry v-height gradient" style={{backgroundImage: "url('media/img_2.jpg"}}>
                 <div className="text">
                   <h2>{articles[1].title}</h2>
-                  <span className="date" style={{paddingRight: 20}}>{moment(articles[1].createdAt).format('LL')}</span>
+                  <span className="date" style={{paddingRight: 15}}>{moment(articles[1].createdAt).format('LL')}</span>
                   <span><ThumbUpAltIcon fontSize="small" />&nbsp;{articles[1].upvotes.length}</span>
                 </div>
               </Link>
             </div>
             <div className="col-md-4">
-              <a href="single.html" className="h-entry img-5 h-100 gradient" style={{backgroundImage: "url('media/img_v_1.jpg')"}}>
-                
+              <Link to={`/article/view/${articles[2]._id}`} className="h-entry img-5 h-100 gradient" style={{backgroundImage: "url('media/img_v_1.jpg')"}}>
                 <div className="text">
                   <div className="post-categories mb-3">
-                    <span className="post-category bg-danger">Travel</span>
-                    <span className="post-category bg-primary">Food</span>
+                    <span className="post-category bg-danger">{articles[2].keyword}</span>
+                    {/* <span className="post-category bg-primary">Food</span> */}
                   </div>
-                  <h2>The AI magically removes moving objects from videos.</h2>
-                  <span className="date">July 19, 2019</span>
+                  <h2>{articles[2].title}</h2>
+                  <span className="date" style={{paddingRight: 15}}>{moment(articles[2].createdAt).format('LL')}</span>
+                  <span><ThumbUpAltIcon fontSize="small" />&nbsp;{articles[2].upvotes.length}</span>
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="col-md-4">
               <a href="single.html" className="h-entry mb-30 v-height gradient" style={{backgroundImage: "url('media/img_3.jpg')"}}>
