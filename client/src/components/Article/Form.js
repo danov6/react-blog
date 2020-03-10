@@ -38,8 +38,7 @@ class Form extends React.Component {
       _id: this.state._id
     })
     .then(() => {
-      console.log('Article deleted..');
-      window.location.pathname = "/";
+      this.props.history.replace('/');
     });
   }
 
@@ -69,7 +68,7 @@ class Form extends React.Component {
         },
     })
     .then(() => {
-      window.location.pathname = `/article/view/${_id}`;
+      this.props.history.push(`/article/view/${_id}`);
     })
     .catch((error) => {
       this.setState({

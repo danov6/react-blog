@@ -286,8 +286,6 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     background-position: -160px 0;
 }
 
-/* End: Play/Pause/Stop */
-
 /* Start: Progress Bar */
 .mejs__time-rail {
     direction: ltr;

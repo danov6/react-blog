@@ -53,7 +53,8 @@ class Login extends React.Component {
         }else{
           localStorage.setItem('JWT-Token', data.token);
           setLoggedInUser(data);
-          window.location.pathname = "/account/profile";
+          this.props.history.replace( '/account/profile' );
+          //this.props.history.push('/account/profile');
         }
       });
     }

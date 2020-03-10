@@ -22,6 +22,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
 import LoadingSpinner from './../LoadingSpinner';
+import AuthorSidebar from './AuthorSidebar';
 import CommentSection from './CommentSection';
 
 class ViewArticle extends React.Component {
@@ -128,7 +129,9 @@ class ViewArticle extends React.Component {
                         ""
                         }
                         <hr className="mb-4" />
-                        <div id="article_content">{this.loadBody()}</div><br />
+                        <div id="article_content" style={{width: '80%', display: 'inline-block', paddingRight: '1%'}}>{this.loadBody()}</div>
+                        <AuthorSidebar article={article} />
+                        <br />
                         <Chip label={article.keyword} variant="outlined" />
                         <br /><br />
                         <div>

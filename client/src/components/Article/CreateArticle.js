@@ -60,7 +60,7 @@ class CreateArticle extends React.Component {
     })
     .then((res) => {
       onSubmit(res.data);
-      window.location.pathname = "/article/view/" + res.data.article._id;
+      this.props.history.push('/article/view/' + res.data.article._id);
     });
   }
 
@@ -115,7 +115,7 @@ class CreateArticle extends React.Component {
               this.handleChangeEditor(data)
           } }
         />
-        <Editor
+        {/* <Editor
         initialValue="<p></p>"
         apiKey="9qsl05h6rplbzku2trm1ice91pug03n75zxy9o54hx96o9y5"
         init={{
@@ -132,7 +132,7 @@ class CreateArticle extends React.Component {
             bullist numlist outdent indent | code'
         }}
         onChange={this.handleEditorChange}
-        />
+        /> */}
         <Link to="/"><button onClick={this.handleCancel} type="button" className="btn btn-link my-3">Cancel</button></Link>
         {/* <Link to="/"><button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Create Blog</button></Link> */}
         <button onClick={this.handleSubmit} className="btn btn-primary float-right my-3">Create Blog</button>

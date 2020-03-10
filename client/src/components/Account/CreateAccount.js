@@ -64,7 +64,7 @@ class CreateAccount extends React.Component {
                 //console.log('Token: ' + data.token);
                 localStorage.setItem('JWT-Token', data.token);
                 setLoggedInUser(data.user);
-                window.location.pathname = "/account/profile";
+                this.props.history.replace( '/account/profile' );
             }
         });
     }

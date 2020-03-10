@@ -64,13 +64,13 @@ class Home extends React.Component {
               </Link>
             </div>
             <div className="col-md-4">
-              <a href="single.html" className="h-entry mb-30 v-height gradient" style={{backgroundImage: "url('media/img_3.jpg')"}}>
-                
+              <Link to={`/article/view/${articles[3]._id}`} className="h-entry mb-30 v-height gradient" style={{backgroundImage: "url('media/img_3.jpg')"}}>
                 <div className="text">
-                  <h2>The 20 Biggest Fintech Companies In America 2019</h2>
-                  <span className="date">July 19, 2019</span>
+                  <h2>{articles[3].title}</h2>
+                  <span className="date" style={{paddingRight: 15}}>{moment(articles[3].createdAt).format('LL')}</span>
+                  <span><ThumbUpAltIcon fontSize="small" />&nbsp;{articles[3].upvotes.length}</span>
                 </div>
-              </a>
+              </Link>
               <a href="single.html" className="h-entry v-height gradient" style={{backgroundImage: "url('media/img_4.jpg')"}}>
                 
                 <div className="text">
