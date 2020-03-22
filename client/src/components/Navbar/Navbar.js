@@ -15,7 +15,7 @@ class Navbar extends React.Component {
     componentDidMount(){
         const { setLoggedInUser, setLoggedOutUser } = this.props;
         let token = localStorage.getItem("JWT-Token");
-        if (token) {
+        if (token != null) {
             axios.defaults.headers.common = {'Authorization': 'Bearer ' + token};
             axios.get("http://localhost:8000/api/users/profile").then((response) => {
                 //An error took place, delete token and logout the user
@@ -32,7 +32,9 @@ class Navbar extends React.Component {
                     isLoggedIn: true
                 });
             }).catch(error => {
-                console.log(error);
+                setLoggedOutUser();
+                localStorage.removeItem("JWT-Token");
+                return;
             });
         } else {
             console.log("[ App ] Error: No token found!");

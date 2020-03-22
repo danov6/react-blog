@@ -25,17 +25,15 @@ const Footer = (props) => {
                     </ul>
                 </div>
                 <div className="col-md-4">
-                    
-
                     <div>
-                    <h3 className="footer-heading mb-4">Connect With Us</h3>
-                    <p>
-                        <a href="#"><span className="icon-facebook pt-2 pr-2 pb-2 pl-0"></span></a>
-                        <a href="#"><span className="icon-twitter p-2"></span></a>
-                        <a href="#"><span className="icon-instagram p-2"></span></a>
-                        <a href="#"><span className="icon-rss p-2"></span></a>
-                        <a href="#"><span className="icon-envelope p-2"></span></a>
-                    </p>
+                        <h3 className="footer-heading mb-4">Connect With Us</h3>
+                        <p>
+                            <a href="#"><span className="icon-facebook pt-2 pr-2 pb-2 pl-0"></span></a>
+                            <a href="#"><span className="icon-twitter p-2"></span></a>
+                            <a href="#"><span className="icon-instagram p-2"></span></a>
+                            <a href="#"><span className="icon-rss p-2"></span></a>
+                            <a href="#"><span className="icon-envelope p-2"></span></a>
+                        </p>
                     </div>
                 </div>
                 </div>

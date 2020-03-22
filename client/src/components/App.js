@@ -35,7 +35,7 @@ const App = () => {
             <Route exact path="/article/view/:articleId" component={ViewArticle} />
             {/* <Route component={404} /> */}
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </Provider>
       </BrowserRouter>
     </Router>
